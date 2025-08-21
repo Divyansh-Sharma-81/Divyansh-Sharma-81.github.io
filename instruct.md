@@ -8,3 +8,7 @@ you were cut off. you were working on the current portfolio website of mine.the 
   effect a layer above the components? it should sit below all the components. that was said so that frosted glass effect would look good showing the undergoing ripples of the fluid in a blurred frosted glass way. that was the vision. 5) the avatar png is supposed to be 
   snuggly places right above the text box. | comment: very very disappointed in you. look at the mockup image again and ensure you logically follow one part by one part's design to be exactly as envisioned. dont spit out bullshit like this. use ultrathinking, break down the 
   entire thing i want into atomic tasks and work on finishing and making the UI i wanted." \n Now your task is to plan in great detail and ensure you make the mockup exactly as imagined and not so horribly. got it? use ultrathinking and plan well and then start working
+
+
+  your current ui, eventhough does centre things up, doesnt quite do it correctly. look at ui_v2.png to see current ui image. then compare it with mockup1.png. 1)the avatar isnt snuggly edge to edge sitting right on the top edge of the ask me anything component. 2) the         │
+│   component of ask me anything isnt pill shaped but rather a round corner rectangle, which isnt what was there in the mockup. 3) the 5 buttons present are too distant and at the page's bottom. they are to be just a bit below the ask me anything box. also the logo, the header 

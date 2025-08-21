@@ -24,15 +24,24 @@ Serves the production build locally for testing.
 
 ## Architecture Overview
 
-This is an interactive 3D portfolio website with a sophisticated layered background system and glassmorphism UI components.
+This is an interactive 3D portfolio website with a sophisticated layered background system and glassmorphism UI components. The codebase is professionally organized with modular CSS architecture.
 
 ### Layer Architecture (Z-Index Stack)
 The application uses a carefully orchestrated z-index system:
 
 - **Layer 0**: Grid background (`grid-background`) - White background with light gray CSS Grid lines
-- **Layer 1**: WebGL fluid simulation (`fluid-canvas`) - Interactive colorful fluid effects
-- **Layer 2**: UI container (`ui-container`) - Main application content
-- **Layer 3+**: Glass panels - Frosted glass components using `backdrop-filter: blur(40px)`
+- **Layer 1**: WebGL fluid simulation (`fluid-canvas`) - Interactive colorful fluid effects positioned BELOW UI
+- **Layer 2**: UI container (`ui-container`) - Main application content with proper flexbox layout
+- **Layer 3+**: Glass panels - True frosted glass components with enhanced backdrop-filter effects
+
+### Modular CSS Architecture
+The CSS is organized into component-based files for maintainability:
+
+- **`base.css`**: Reset styles, CSS custom properties, responsive breakpoints
+- **`layout.css`**: Background layers (grid, fluid canvas) and main UI container
+- **`glass-components.css`**: Reusable glass panel variants with BEM-like naming
+- **`ui-components.css`**: Specific UI component styles (header, chat, buttons)
+- **`main.css`**: Clean imports of all component files
 
 ### Core Components
 
@@ -59,20 +68,31 @@ The application uses a carefully orchestrated z-index system:
 - **Module Loading**: ES6 modules with dynamic imports for fluid simulation
 
 #### 4. UI Layout System
-- **Architecture**: Flexbox-based with `justify-content: space-between` for perfect vertical distribution
+- **Architecture**: Professional flexbox-based layout with semantic HTML structure
 - **Sections**: 
-  - Header: Logo (D-shaped), greeting text, main title
-  - Main: Avatar image and chat input with frosted glass effect
-  - Footer: 5 preset buttons in frosted glass containers
-- **Responsive**: Uses CSS custom properties and `clamp()` functions, no hardcoded pixel values
+  - Header: Logo (D-shaped) in separate container
+  - Text Section: Greeting and "AI PORTFOLIO" title with balanced spacing
+  - Main: Avatar (square, 1/3 chat width) positioned above chat input (pill-shaped, 1/3 screen width)
+  - Footer: 5 equally-wide preset buttons spanning same width as chat input
+- **Responsive**: Uses CSS custom properties and logical proportions, zero hardcoded pixel values
+
+#### 5. Layout Specifications (Critical Requirements)
+- **Chat Input**: Exactly 1/3 screen width (`33.333vw`), perfect pill shape (`border-radius: 50px`)
+- **Avatar**: Square shape (no border-radius), size = 1/2 chat input width, positioned edge-to-edge above input
+- **Buttons**: 5 equally-wide buttons (`flex: 1`) spanning total width of chat input
+- **Text Spacing**: Balanced gaps between logo → greeting → title for proper visual hierarchy
 
 ## Design System
 
-### Glassmorphism Implementation
-- **Backdrop Filter**: `blur(40px)` for true frosted glass effect
-- **Background**: `rgba(255, 255, 255, 0.15)` for subtle transparency
-- **Border**: `rgba(255, 255, 255, 0.3)` for glass-like edges
-- **Box Shadow**: Soft shadows with multiple layers for depth
+### Glassmorphism Implementation (True Frosted Glass Effect)
+Based on professional glassmorphism standards from frosty reference files:
+
+- **Background**: `rgba(255, 255, 255, 0.15)` - Perfect transparency balance
+- **Backdrop Filter**: `blur(8px)` with `-webkit-backdrop-filter` fallback
+- **Border**: `1px solid rgba(255, 255, 255, 0.18)` - Subtle glass edge
+- **Box Shadow**: `0 8px 32px 0 rgba(31, 38, 135, 0.37)` - Realistic depth
+- **Hover States**: Subtle `translateY(-2px)` with enhanced shadow and opacity
+- **Transitions**: Quick `0.1s ease-in-out` for responsive feel
 
 ### Responsive Design
 - **Breakpoints**: 768px (tablet) and 480px (mobile)

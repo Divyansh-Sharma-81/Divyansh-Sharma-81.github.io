@@ -1361,13 +1361,20 @@ function correctRadius (radius) {
     return radius;
 }
 
-// Modified mouse interaction - no click required, only movement
+// Modified mouse interaction - continuous fluid generation during movement
+canvas.addEventListener('mouseenter', e => {
+    let pointer = pointers[0];
+    let posX = scaleByPixelRatio(e.offsetX);
+    let posY = scaleByPixelRatio(e.offsetY);
+    updatePointerDownData(pointer, -1, posX, posY);
+});
+
 canvas.addEventListener('mousemove', e => {
     let pointer = pointers[0];
     let posX = scaleByPixelRatio(e.offsetX);
     let posY = scaleByPixelRatio(e.offsetY);
     
-    // Initialize pointer if not set
+    // Ensure pointer is active during movement
     if (!pointer.down) {
         updatePointerDownData(pointer, -1, posX, posY);
     }
@@ -1431,7 +1438,11 @@ function updatePointerDownData (pointer, id, posX, posY) {
     pointer.prevTexcoordY = pointer.texcoordY;
     pointer.deltaX = 0;
     pointer.deltaY = 0;
-    pointer.color = generateColor();
+    
+    // Only generate new color if this is a fresh pointer interaction
+    if (!pointer.color || pointer.id !== id) {
+        pointer.color = generateColor();
+    }
 }
 
 function updatePointerMoveData (pointer, posX, posY) {
@@ -1441,7 +1452,10 @@ function updatePointerMoveData (pointer, posX, posY) {
     pointer.texcoordY = 1.0 - posY / canvas.height;
     pointer.deltaX = correctDeltaX(pointer.texcoordX - pointer.prevTexcoordX);
     pointer.deltaY = correctDeltaY(pointer.texcoordY - pointer.prevTexcoordY);
-    pointer.moved = Math.abs(pointer.deltaX) > 0 || Math.abs(pointer.deltaY) > 0;
+    
+    // More sensitive movement detection with a small threshold to avoid floating point precision issues
+    const movementThreshold = 0.0001;
+    pointer.moved = Math.abs(pointer.deltaX) > movementThreshold || Math.abs(pointer.deltaY) > movementThreshold;
 }
 
 function updatePointerUpData (pointer) {

@@ -1,0 +1,61 @@
+/* Glass Panel Base Style - True Frosted Glass Effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
+  transition: all 0.1s ease-in-out;
+}
+
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Glass Panel Variants */
+.glass-panel--pill {
+  border-radius: 50px; /* Full pill shape */
+}
+
+.glass-panel--logo {
+  padding: var(--spacing-sm);
+  border-radius: 12px;
+}
+
+.glass-panel--chat {
+  padding: var(--spacing-sm) var(--spacing-md);
+  width: var(--chat-input-width);
+  max-width: 90vw;
+  border-radius: 50px; /* Perfect pill shape */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
+}
+
+.glass-panel--button {
+  padding: var(--spacing-sm) var(--spacing-xs);
+  border-radius: 16px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.1);
+  color: var(--text-primary);
+  transition: all 0.1s ease-in-out;
+}
+
+.glass-panel--button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(31, 38, 135, 0.15);
+}
+
+.glass-panel--button:hover .preset-text {
+  color: var(--text-primary);
+}
