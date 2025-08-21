@@ -1,0 +1,67 @@
+// Main application entry point
+class PortfolioApp {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    console.log('Portfolio App initialized');
+    this.setupGridBackground();
+    this.setupResponsiveGrid();
+    this.loadFluidSimulation();
+  }
+
+  setupGridBackground() {
+    // Grid background is handled by CSS
+    // This method can be extended for dynamic grid effects later
+    const gridBackground = document.getElementById('gridBackground');
+    
+    // Add subtle parallax effect to grid (optional enhancement)
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const parallax = scrolled * 0.1;
+      gridBackground.style.transform = `translateY(${parallax}px)`;
+    });
+  }
+
+  setupResponsiveGrid() {
+    // Handle responsive grid size adjustments
+    const updateGridSize = () => {
+      const width = window.innerWidth;
+      let gridSize;
+      
+      if (width < 480) {
+        gridSize = 25;
+      } else if (width < 768) {
+        gridSize = 30;
+      } else {
+        gridSize = 40;
+      }
+      
+      document.documentElement.style.setProperty('--grid-size', `${gridSize}px`);
+    };
+    
+    // Update on load and resize
+    updateGridSize();
+    window.addEventListener('resize', updateGridSize);
+  }
+
+  // Load the WebGL fluid simulation
+  async loadFluidSimulation() {
+    try {
+      // Import and initialize the fluid simulation
+      await import('./fluid-simulation.js');
+      console.log('WebGL Fluid Simulation loaded');
+    } catch (error) {
+      console.error('Failed to load fluid simulation:', error);
+    }
+  }
+}
+
+// Initialize the app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  window.portfolioApp = new PortfolioApp();
+});
+
+// Export for use with WebGL simulation
+export default PortfolioApp;

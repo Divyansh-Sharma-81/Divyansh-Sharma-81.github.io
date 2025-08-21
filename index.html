@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Interactive 3D Portfolio with WebGL Fluid Simulation" />
+    <title>Portfolio 3D</title>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body>
+    <!-- Grid Background Layer (z-index: 1) -->
+    <div class="grid-background" id="gridBackground"></div>
+    
+    <!-- WebGL Fluid Simulation Layer (z-index: 2) -->
+    <canvas class="fluid-canvas" id="fluidCanvas"></canvas>
+    
+    <!-- UI Components Layer -->
+    <div class="ui-container">
+      <!-- Header Section -->
+      <header class="header-section">
+        <div class="logo-container glass-panel">
+          <img src="/assets/logo.png" alt="Divyansh Logo" class="logo" />
+        </div>
+        <h1 class="greeting">Hey, I'm Divyansh 👋</h1>
+        <h2 class="main-title">AI PORTFOLIO</h2>
+      </header>
+      
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="chat-section">
+          <div class="avatar-container">
+            <img src="/assets/avatar.png" alt="Divyansh Avatar" class="avatar" />
+          </div>
+          <div class="chat-input-container glass-panel">
+            <input type="text" class="chat-input" placeholder="Ask me anything..." />
+            <button class="send-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </main>
+      
+      <!-- Footer Section -->
+      <footer class="footer-section">
+        <div class="preset-buttons">
+          <button class="preset-btn glass-panel" data-section="me">
+            <span class="preset-icon">👤</span>
+            <span class="preset-text">Me</span>
+          </button>
+          <button class="preset-btn glass-panel" data-section="projects">
+            <span class="preset-icon">💼</span>
+            <span class="preset-text">Projects</span>
+          </button>
+          <button class="preset-btn glass-panel" data-section="skills">
+            <span class="preset-icon">🎯</span>
+            <span class="preset-text">Skills</span>
+          </button>
+          <button class="preset-btn glass-panel" data-section="fun">
+            <span class="preset-icon">🎮</span>
+            <span class="preset-text">Fun</span>
+          </button>
+          <button class="preset-btn glass-panel" data-section="contact">
+            <span class="preset-icon">📞</span>
+            <span class="preset-text">Contact</span>
+          </button>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
