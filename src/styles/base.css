@@ -27,7 +27,7 @@ body {
   --glass-bg: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
-  --glass-backdrop: blur(40px);
+  --glass-backdrop: blur(50px);
   --text-primary: #333;
   --text-secondary: #666;
   --accent-color: #007AFF;
