@@ -67,8 +67,8 @@
 }
 
 .chat-modal-avatar .avatar {
-  width: calc(100vw / 25); /* Updated dimension as per user change */
-  height: calc(100vw / 25); /* Square - same height as width */
+  width: calc(100vw / 30); /* Updated dimension as per user change */
+  height: calc(100vw / 30); /* Square - same height as width */
 }
 
 /* User Message Display - Right-aligned chat bubble */
@@ -266,6 +266,174 @@
   
   .me-photo {
     width: 50%; /* Even larger on very small screens */
+  }
+}
+
+/* Projects Showcase - Logical proportional layout */
+.projects-showcase {
+  width: 100%;
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+/* Main content container - 4/5th of chat modal width */
+.projects-content-container {
+  width: 80%; /* 4/5th of modal width */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+/* Projects heading - no glass styling */
+.projects-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Projects carousel container */
+.projects-carousel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-radius: 20px;
+  position: relative;
+}
+
+/* Carousel arrows */
+.carousel-arrow {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Projects grid */
+.projects-grid {
+  flex: 1;
+  display: flex;
+  gap: var(--spacing-md);
+  overflow: hidden;
+  justify-content: center;
+}
+
+/* Individual project card */
+.project-card {
+  flex: 1;
+  max-width: 30%; /* Each card takes max 30% to fit 3 cards */
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: all 0.2s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+}
+
+.project-type {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+}
+
+.project-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.project-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+/* Projects description - no glass styling */
+.projects-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  text-align: justify;
+  width: 100%;
+  max-width: 90%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .projects-content-container {
+    width: 90%; /* Slightly wider on mobile */
+  }
+  
+  .projects-carousel {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .carousel-arrow {
+    display: none; /* Hide arrows on mobile for now */
+  }
+  
+  .projects-grid {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .project-card {
+    max-width: 100%;
+  }
+  
+  .projects-description {
+    font-size: 1.1rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-content-container {
+    width: 95%; /* Nearly full width on very small screens */
+  }
+  
+  .projects-carousel {
+    padding: var(--spacing-md);
+  }
+  
+  .project-card {
+    padding: var(--spacing-sm);
   }
 }
 

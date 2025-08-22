@@ -259,10 +259,9 @@ This codebase uses professional frontend practices:
 ### 🔄 Working Methodology
 
 #### **When Starting New Tasks**
-1. **Read HANDOFF.md** for current project context
-2. **Examine existing code** to understand current implementation patterns  
-3. **Create TodoWrite list** breaking down the task into atomic steps
-4. **Follow established patterns** from similar existing implementations
+1. **Examine existing code** to understand current implementation patterns  
+2. **Create TodoWrite list** breaking down the task into atomic steps
+3. **Follow established patterns** from similar existing implementations
 
 #### **When Debugging Issues**
 1. **Identify the real problem** - don't treat symptoms

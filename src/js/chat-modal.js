@@ -28,10 +28,12 @@ export class ChatModal {
     
     // Special showcase elements
     this.meShowcase = document.getElementById('meShowcase');
+    this.projectsShowcase = document.getElementById('projectsShowcase');
     
     console.log('User Message Text:', this.userMessageText);
     console.log('AI Response Text:', this.aiResponseText);
     console.log('Me Showcase:', this.meShowcase);
+    console.log('Projects Showcase:', this.projectsShowcase);
     
     this.isChatMode = false;
     this.questionsCollapsed = false;
@@ -237,6 +239,9 @@ export class ChatModal {
     if (this.meShowcase) {
       this.meShowcase.style.display = 'none';
     }
+    if (this.projectsShowcase) {
+      this.projectsShowcase.style.display = 'none';
+    }
   }
 
   hideUserMessage() {
@@ -269,6 +274,12 @@ export class ChatModal {
       if (this.meShowcase) {
         this.meShowcase.style.display = 'flex';
       }
+    } else if (isPreset && section === 'projects') {
+      // Hide user message and show Projects showcase
+      this.hideUserMessage();
+      if (this.projectsShowcase) {
+        this.projectsShowcase.style.display = 'flex';
+      }
     } else {
       // Show user message and regular text response
       this.showUserMessage();
@@ -284,6 +295,9 @@ export class ChatModal {
     if (isPreset && section === 'me') {
       // Show Me showcase instead of text response
       this.showResponse(true, 'me');
+    } else if (isPreset && section === 'projects') {
+      // Show Projects showcase instead of text response
+      this.showResponse(true, 'projects');
     } else {
       // Generate and show regular text response
       const response = this.generateResponse(userMessage);
