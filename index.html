@@ -31,7 +31,8 @@
       
       <!-- Main Content -->
       <main class="main-content">
-        <div class="chat-section">
+        <!-- Default State: Initial Chat Section -->
+        <div class="chat-section" id="defaultChatSection">
           <div class="avatar-container">
             <img src="/assets/avatar.png" alt="Divyansh Avatar" class="avatar" />
           </div>
@@ -44,6 +45,80 @@
               </svg>
             </button>
           </div>
+        </div>
+
+        <!-- Chat Mode: Expanded Chat Modal -->
+        <div class="chat-modal-section glass-panel glass-panel--modal" id="chatModalSection">
+          <!-- Avatar at center-top -->
+          <div class="chat-modal-avatar">
+            <img src="/assets/avatar.png" alt="Divyansh Avatar" class="avatar" />
+          </div>
+          
+          <!-- User Message Display -->
+          <div class="user-message-display glass-panel glass-panel--button">
+            <span id="userMessageText"></span>
+          </div>
+          
+          <!-- AI Response Section -->
+          <div class="ai-response-area">
+            <div class="ai-logo-response">
+              <img src="/assets/logo.png" alt="AI Logo" class="ai-logo" />
+              <div class="loading-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="ai-message-area glass-panel glass-panel--button">
+              <div id="aiResponseText">Thinking...</div>
+            </div>
+          </div>
+          
+          <!-- Quick Questions (Collapsible) -->
+          <div class="quick-questions-container">
+            <button class="questions-toggle glass-panel glass-panel--button" id="questionsToggle">
+              <span>Hide Quick Questions</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6,9 12,15 18,9"></polyline>
+              </svg>
+            </button>
+            <div class="quick-questions-grid" id="quickQuestionsGrid">
+              <button class="preset-btn glass-panel glass-panel--button" data-section="me">
+                <span class="preset-icon">👤</span>
+                <span class="preset-text">Me</span>
+              </button>
+              <button class="preset-btn glass-panel glass-panel--button" data-section="projects">
+                <span class="preset-icon">💼</span>
+                <span class="preset-text">Projects</span>
+              </button>
+              <button class="preset-btn glass-panel glass-panel--button" data-section="skills">
+                <span class="preset-icon">🎯</span>
+                <span class="preset-text">Skills</span>
+              </button>
+              <button class="preset-btn glass-panel glass-panel--button" data-section="fun">
+                <span class="preset-icon">🎮</span>
+                <span class="preset-text">Fun</span>
+              </button>
+              <button class="preset-btn glass-panel glass-panel--button" data-section="contact">
+                <span class="preset-icon">📞</span>
+                <span class="preset-text">Contact</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Chat Input in Modal -->
+          <div class="chat-input-modal glass-panel glass-panel--chat">
+            <input type="text" class="chat-input-field" placeholder="Ask me anything..." />
+            <button class="send-button-modal">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Close Button -->
+          <button class="chat-close-btn glass-panel glass-panel--button" id="chatCloseBtn">✕</button>
         </div>
       </main>
       

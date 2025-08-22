@@ -72,7 +72,7 @@ function pointerPrototype () {
 }
 
 let pointers = [];
-let splatStack = [];
+let splatStack = []; // Ensure empty on startup
 pointers.push(new pointerPrototype());
 
 const { gl, ext } = getWebGLContext(canvas);
@@ -1069,6 +1069,8 @@ function updateKeywords () {
 updateKeywords();
 initFramebuffers();
 // Random splats at startup removed for clean portfolio start
+// Clear any potential splat stack entries
+splatStack.length = 0;
 
 let lastUpdateTime = Date.now();
 let colorUpdateTimer = 0.0;
@@ -1424,8 +1426,9 @@ window.addEventListener('touchend', e => {
 window.addEventListener('keydown', e => {
     if (e.code === 'KeyP')
         config.PAUSED = !config.PAUSED;
-    if (e.key === ' ')
-        splatStack.push(parseInt(Math.random() * 20) + 5);
+    // Spacebar splats disabled for clean portfolio experience
+    // if (e.key === ' ')
+    //     splatStack.push(parseInt(Math.random() * 20) + 5);
 });
 
 function updatePointerDownData (pointer, id, posX, posY) {

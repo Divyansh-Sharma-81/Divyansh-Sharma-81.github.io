@@ -1,4 +1,6 @@
 // Main application entry point
+import { ChatModal } from './chat-modal.js';
+
 class PortfolioApp {
   constructor() {
     this.init();
@@ -9,6 +11,7 @@ class PortfolioApp {
     this.setupGridBackground();
     this.setupResponsiveGrid();
     this.loadFluidSimulation();
+    this.setupChatModal();
   }
 
   setupGridBackground() {
@@ -55,6 +58,12 @@ class PortfolioApp {
     } catch (error) {
       console.error('Failed to load fluid simulation:', error);
     }
+  }
+
+  // Setup chat modal functionality
+  setupChatModal() {
+    this.chatModal = new ChatModal();
+    console.log('Chat Modal initialized');
   }
 }
 

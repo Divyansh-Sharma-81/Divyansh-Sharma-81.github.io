@@ -4,5 +4,6 @@
 @import './layout.css';  
 @import './glass-components.css';
 @import './ui-components.css';
+@import './chat-modal.css';
 
 /* Legacy styles cleanup - will be removed after migration */
