@@ -18,6 +18,7 @@ export class ChatModal {
     // Modal UI elements
     this.userMessageText = document.getElementById('userMessageText');
     this.aiResponseText = document.getElementById('aiResponseText');
+    this.aiMessageArea = document.querySelector('.ai-message-area');
     this.loadingDots = document.querySelector('.loading-dots');
     this.chatInputField = document.querySelector('.chat-input-field');
     this.sendButtonModal = document.querySelector('.send-button-modal');
@@ -25,11 +26,16 @@ export class ChatModal {
     this.questionsToggle = document.getElementById('questionsToggle');
     this.quickQuestionsGrid = document.getElementById('quickQuestionsGrid');
     
+    // Special showcase elements
+    this.meShowcase = document.getElementById('meShowcase');
+    
     console.log('User Message Text:', this.userMessageText);
     console.log('AI Response Text:', this.aiResponseText);
+    console.log('Me Showcase:', this.meShowcase);
     
     this.isChatMode = false;
     this.questionsCollapsed = false;
+    this.isPresetQuestion = false; // Track if current question is preset
     
     this.init();
   }
@@ -40,29 +46,29 @@ export class ChatModal {
   }
 
   setupEventListeners() {
-    // Original chat input
+    // Original chat input (typed questions)
     this.chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' && this.chatInput.value.trim()) {
-        this.enterChatMode(this.chatInput.value.trim());
+        this.enterChatMode(this.chatInput.value.trim(), false); // false = not preset
       }
     });
 
     this.sendButton.addEventListener('click', () => {
       if (this.chatInput.value.trim()) {
-        this.enterChatMode(this.chatInput.value.trim());
+        this.enterChatMode(this.chatInput.value.trim(), false); // false = not preset
       }
     });
 
-    // Modal chat input
+    // Modal chat input (typed questions)
     this.chatInputField.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' && this.chatInputField.value.trim()) {
-        this.sendNewMessage(this.chatInputField.value.trim());
+        this.sendNewMessage(this.chatInputField.value.trim(), false); // false = not preset
       }
     });
 
     this.sendButtonModal.addEventListener('click', () => {
       if (this.chatInputField.value.trim()) {
-        this.sendNewMessage(this.chatInputField.value.trim());
+        this.sendNewMessage(this.chatInputField.value.trim(), false); // false = not preset
       }
     });
 
@@ -97,11 +103,11 @@ export class ChatModal {
         const message = this.getPresetMessage(section);
         
         if (this.isChatMode) {
-          // Update current conversation
-          this.sendNewMessage(message);
+          // Update current conversation with preset
+          this.sendNewMessage(message, true, section); // true = preset, pass section
         } else {
           // Enter chat mode with preset message
-          this.enterChatMode(message);
+          this.enterChatMode(message, true, section); // true = preset, pass section
         }
       });
     });
@@ -119,9 +125,11 @@ export class ChatModal {
     return presetMessages[section] || "Tell me more about this section.";
   }
 
-  enterChatMode(message) {
-    console.log('Entering chat mode with message:', message);
+  enterChatMode(message, isPreset = false, section = null) {
+    console.log('Entering chat mode with message:', message, 'isPreset:', isPreset, 'section:', section);
     this.isChatMode = true;
+    this.isPresetQuestion = isPreset;
+    this.currentSection = section;
     
     // Set the user message
     this.userMessageText.textContent = message;
@@ -141,10 +149,17 @@ export class ChatModal {
     this.chatModalSection.classList.add('active');
     console.log('Added active class to modal section');
     
-    // Simulate AI response
+    // Force glass invalidation after DOM changes
     setTimeout(() => {
-      this.simulateAIResponse(message);
-    }, 1500 + Math.random() * 1000);
+      if (window.portfolioApp && window.portfolioApp.invalidateGlass) {
+        window.portfolioApp.invalidateGlass();
+      }
+    }, 50);
+    
+    // Simulate AI response - keep loading for 2 seconds
+    setTimeout(() => {
+      this.simulateAIResponse(message, isPreset, section);
+    }, 2000);
     
     // Focus on modal input
     setTimeout(() => {
@@ -161,6 +176,11 @@ export class ChatModal {
     // Remove chat-mode class after animation
     setTimeout(() => {
       this.uiContainer.classList.remove('chat-mode');
+      
+      // Force glass invalidation after returning to home
+      if (window.portfolioApp && window.portfolioApp.invalidateGlass) {
+        window.portfolioApp.invalidateGlass();
+      }
     }, 300);
     
     // Clear AI thinking state
@@ -175,9 +195,11 @@ export class ChatModal {
     }
   }
 
-  sendNewMessage(message) {
+  sendNewMessage(message, isPreset = false, section = null) {
     // Update user message display
     this.userMessageText.textContent = message;
+    this.isPresetQuestion = isPreset;
+    this.currentSection = section;
     
     // Clear input
     this.chatInputField.value = '';
@@ -185,35 +207,89 @@ export class ChatModal {
     // Show AI thinking
     this.showAIThinking();
     
-    // Simulate new AI response
+    // Simulate new AI response - keep loading for 2 seconds
     setTimeout(() => {
-      this.simulateAIResponse(message);
-    }, 1000 + Math.random() * 1500);
+      this.simulateAIResponse(message, isPreset, section);
+    }, 2000);
   }
 
   showAIThinking() {
-    this.loadingDots.style.display = 'flex';
-    // Hide the entire AI message bubble while thinking
-    const aiMessageArea = document.querySelector('.ai-message-area');
-    if (aiMessageArea) {
-      aiMessageArea.style.display = 'none';
-    }
-  }
-
-  hideAIThinking() {
-    this.loadingDots.style.display = 'none';
-    // Show the AI message bubble when done thinking
-    const aiMessageArea = document.querySelector('.ai-message-area');
-    if (aiMessageArea) {
-      aiMessageArea.style.display = 'block';
-    }
-  }
-
-  simulateAIResponse(userMessage) {
-    this.hideAIThinking();
+    // Show the entire AI logo + loading section
+    const aiLogoResponse = document.querySelector('.ai-logo-response');
     
-    const response = this.generateResponse(userMessage);
-    this.aiResponseText.textContent = response;
+    if (aiLogoResponse) {
+      aiLogoResponse.style.display = 'flex';
+    }
+    
+    // Hide all response types during thinking
+    this.hideAllResponses();
+    
+    this.loadingDots.style.display = 'flex';
+  }
+
+  hideAllResponses() {
+    // Hide regular text response
+    if (this.aiMessageArea) {
+      this.aiMessageArea.style.display = 'none';
+    }
+    
+    // Hide all special showcases
+    if (this.meShowcase) {
+      this.meShowcase.style.display = 'none';
+    }
+  }
+
+  hideUserMessage() {
+    // Hide user message bubble for preset showcases
+    const userMessageDisplay = document.querySelector('.user-message-display');
+    if (userMessageDisplay) {
+      userMessageDisplay.style.display = 'none';
+    }
+  }
+
+  showUserMessage() {
+    // Show user message bubble for regular responses
+    const userMessageDisplay = document.querySelector('.user-message-display');
+    if (userMessageDisplay) {
+      userMessageDisplay.style.display = 'block';
+    }
+  }
+
+  showResponse(isPreset, section) {
+    // Hide the AI logo + loading section
+    const aiLogoResponse = document.querySelector('.ai-logo-response');
+    if (aiLogoResponse) {
+      aiLogoResponse.style.display = 'none';
+    }
+    this.loadingDots.style.display = 'none';
+    
+    if (isPreset && section === 'me') {
+      // Hide user message and show Me showcase
+      this.hideUserMessage();
+      if (this.meShowcase) {
+        this.meShowcase.style.display = 'flex';
+      }
+    } else {
+      // Show user message and regular text response
+      this.showUserMessage();
+      if (this.aiMessageArea) {
+        this.aiMessageArea.style.display = 'block';
+      }
+    }
+  }
+
+  simulateAIResponse(userMessage, isPreset = false, section = null) {
+    console.log('Simulating AI response:', { userMessage, isPreset, section });
+    
+    if (isPreset && section === 'me') {
+      // Show Me showcase instead of text response
+      this.showResponse(true, 'me');
+    } else {
+      // Generate and show regular text response
+      const response = this.generateResponse(userMessage);
+      this.aiResponseText.textContent = response;
+      this.showResponse(false, null);
+    }
   }
 
   generateResponse(message) {

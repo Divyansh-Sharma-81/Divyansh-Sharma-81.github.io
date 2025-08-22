@@ -55,9 +55,26 @@ class PortfolioApp {
       // Import and initialize the fluid simulation
       await import('./fluid-simulation.js');
       console.log('WebGL Fluid Simulation loaded');
+      
+      // Force CSS invalidation after WebGL loads
+      setTimeout(() => this.invalidateGlass(), 100);
     } catch (error) {
       console.error('Failed to load fluid simulation:', error);
     }
+  }
+
+  // Force CSS invalidation by changing custom properties
+  invalidateGlass() {
+    const root = document.documentElement;
+    // Change values slightly to force CSS recompilation
+    root.style.setProperty('--glass-blur', '30.1px');
+    root.style.setProperty('--glass-saturation', '200.1%');
+    
+    requestAnimationFrame(() => {
+      // Reset to original values
+      root.style.setProperty('--glass-blur', '30px');
+      root.style.setProperty('--glass-saturation', '200%');
+    });
   }
 
   // Setup chat modal functionality
@@ -65,6 +82,7 @@ class PortfolioApp {
     this.chatModal = new ChatModal();
     console.log('Chat Modal initialized');
   }
+
 }
 
 // Initialize the app when DOM is loaded
