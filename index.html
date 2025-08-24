@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Interactive 3D Portfolio with WebGL Fluid Simulation" />
     <title>Portfolio 3D</title>
+    <script>
+      // Prevent FOUC for theme switching
+      (function() {
+        const theme = localStorage.getItem('portfolio-theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="/src/styles/main.css" />
   </head>
   <body>
@@ -129,49 +140,10 @@
                   <div class="projects-heading">
                     My Projects
                   </div>
-                  <div class="projects-carousel glass-panel glass-panel--chat-element">
-                    <button class="carousel-arrow carousel-arrow--left">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15,18 9,12 15,6"></polyline>
-                      </svg>
-                    </button>
-                    <div class="projects-grid">
-                      <div class="project-card">
-                        <div class="project-type">Startup Project</div>
-                        <div class="project-name">Synto</div>
-                        <div class="project-image">
-                          <!-- Placeholder for Synto project image -->
-                          <div class="project-placeholder" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                            <span>🤖</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="project-card">
-                        <div class="project-type">Fun Tool</div>
-                        <div class="project-name">Rrate</div>
-                        <div class="project-image">
-                          <!-- Placeholder for Rrate project image -->
-                          <div class="project-placeholder" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-                            <span>💰</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="project-card">
-                        <div class="project-type">Hackathon Winner</div>
-                        <div class="project-name">Defai</div>
-                        <div class="project-image">
-                          <!-- Placeholder for Defai project image -->
-                          <div class="project-placeholder" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                            <span>⚡</span>
-                          </div>
-                        </div>
-                      </div>
+                  <div class="projects-carousel-container">
+                    <div class="projects-scroll-container" id="projectsScrollContainer">
+                      <!-- Project cards will be dynamically inserted here -->
                     </div>
-                    <button class="carousel-arrow carousel-arrow--right">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9,18 15,12 9,6"></polyline>
-                      </svg>
-                    </button>
                   </div>
                   <div class="projects-description">
                     I've got a bunch of cool projects under my belt! You can check them out above. Started off with Deep Learning centric projects and slowly moved towards Generative AI powered projects. 

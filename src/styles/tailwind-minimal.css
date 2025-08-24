@@ -1,0 +1,100 @@
+/* Minimal CSS for TailwindCSS Implementation */
+/* Only contains styles that TailwindCSS cannot handle directly */
+
+@import 'tailwindcss';
+
+/* Pointer Events Fix - Browser issues with will-change */
+* {
+  will-change: auto;
+}
+
+/* CSS Invalidation Fix for backdrop-filter rendering issues */
+.glass-invalidation-fix {
+  --invalidation-trigger: 0;
+}
+
+/* Chat Mode State Management - Complex state changes */
+.ui-container.chat-mode .header-section,
+.ui-container.chat-mode .text-section,
+.ui-container.chat-mode #defaultChatSection,
+.ui-container.chat-mode .footer-section {
+  display: none !important;
+}
+
+.ui-container.chat-mode .main-content {
+  @apply w-screen h-screen flex items-center justify-center fixed top-0 left-0 z-50 pointer-events-none;
+}
+
+.ui-container.chat-mode #chatModalSection {
+  @apply flex opacity-100 scale-100 pointer-events-auto;
+}
+
+/* Collapsible Quick Questions State */
+.quick-questions-collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.questions-toggle-collapsed svg {
+  @apply rotate-180;
+}
+
+/* Theme Toggle Icon Animation */
+.theme-icon {
+  @apply absolute transition-all duration-300;
+}
+
+.theme-icon--light {
+  @apply opacity-100 rotate-0;
+}
+
+.theme-icon--dark {
+  @apply opacity-0 rotate-180;
+}
+
+.dark .theme-icon--light {
+  @apply opacity-0 rotate-180;
+}
+
+.dark .theme-icon--dark {
+  @apply opacity-100 rotate-0;
+}
+
+/* Responsive Grid Background Pattern - Complex CSS features */
+.grid-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgb(248 248 248) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(248 248 248) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 0;
+  transition: background-image 0.3s ease;
+}
+
+.dark .grid-background::before {
+  background-image: 
+    linear-gradient(rgb(36 36 36) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(36 36 36) 1px, transparent 1px);
+}
+
+@media (max-width: 768px) {
+  .grid-background::before {
+    background-size: 30px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-background::before {
+    background-size: 25px 25px;
+  }
+}
+
+/* Prevent FOUC for theme switching */
+.theme-loading * {
+  transition: none !important;
+}

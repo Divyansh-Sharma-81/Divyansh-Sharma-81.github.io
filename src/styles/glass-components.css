@@ -1,21 +1,21 @@
 /* Glass Panel Base Style - Theme-aware Enhanced Frosted Glass Effect */
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate));
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  box-shadow: var(--glass-shadow);
-  transition: all 0.3s ease-in-out;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--glass-shadow) !important;
+  transition: all 0.3s ease-in-out !important;
   /* Force compositor layer for backdrop-filter */
-  transform: translateZ(0);
+  transform: translateZ(0) !important;
   will-change: backdrop-filter, transform, background;
 }
 
 .glass-panel:hover {
-  background: var(--glass-bg-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.25);
+  background: var(--glass-bg-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.25) !important;
 }
 
 /* Glass Panel Variants */
@@ -29,34 +29,34 @@
 }
 
 .glass-panel--chat {
-  padding: var(--spacing-sm) var(--spacing-md);
-  width: var(--chat-input-width);
-  max-width: 90vw;
-  border-radius: 50px; /* Perfect pill shape */
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-backdrop-blur));
-  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur));
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  padding: var(--spacing-sm) var(--spacing-md) !important;
+  width: var(--chat-input-width) !important;
+  max-width: 90vw !important;
+  border-radius: 50px !important; /* Perfect pill shape */
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
 }
 
 .glass-panel--button {
-  padding: var(--spacing-sm) var(--spacing-xs);
-  border-radius: 16px;
+  padding: var(--spacing-sm) var(--spacing-xs) !important;
+  border-radius: 16px !important;
   cursor: pointer;
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-backdrop-blur));
-  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur));
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-  color: var(--text-primary);
-  transition: all 0.3s ease-in-out;
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .glass-panel--button:hover {
-  background: var(--glass-bg-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  background: var(--glass-bg-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.2) !important;
 }
 
 .glass-panel--button:hover .preset-text {
@@ -65,27 +65,27 @@
 
 /* Chat Modal Glass Panel - Main container */
 .glass-panel--modal {
-  padding: var(--spacing-lg);
-  border-radius: 24px;
-  background: var(--glass-modal-bg);
-  backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate));
-  -webkit-backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate));
-  border: 1px solid var(--glass-modal-border);
-  box-shadow: var(--glass-modal-shadow);
+  padding: var(--spacing-lg) !important;
+  border-radius: 24px !important;
+  background: var(--glass-modal-bg) !important;
+  backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate)) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate)) !important;
+  border: 1px solid var(--glass-modal-border) !important;
+  box-shadow: var(--glass-modal-shadow) !important;
 }
 
 /* Chat Modal Elements - Theme-aware contrast */
 .glass-panel--chat-element {
-  background: var(--glass-chat-bg);
-  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%);
-  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%);
-  border: 1px solid var(--glass-chat-border);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease-in-out;
+  background: var(--glass-chat-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%) !important;
+  border: 1px solid var(--glass-chat-border) !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .glass-panel--chat-element:hover {
-  background: var(--glass-chat-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2);
+  background: var(--glass-chat-hover) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2) !important;
 }

@@ -7,7 +7,7 @@
   display: none; /* Hidden by default */
   flex-direction: column;
   align-items: center;
-  padding-top: calc(100vw / 25 + var(--spacing-md)); /* Top padding = avatar height + spacing */
+  padding-top: var(--spacing-md); /* Minimal top padding - avatar clearance handled by content area */
   padding-left: var(--spacing-lg);
   padding-right: var(--spacing-lg);
   padding-bottom: var(--spacing-lg);
@@ -36,7 +36,7 @@
   flex: 1;
   min-height: 0; /* Allow shrinking */
   justify-content: flex-start; /* Start content higher up */
-  padding-top: var(--spacing-sm); /* Move content area up */
+  padding-top: calc(calc(100vw / 30) + var(--spacing-lg)); /* Avatar height + extra spacing for clearance */
 }
 
 /* Bottom Interactive Area - Bottom section with controls */
@@ -302,10 +302,10 @@
 
 /* Main content container - 4/5th of chat modal width */
 .projects-content-container {
-  width: 80%; /* 4/5th of modal width */
+  width: 100%; /* 4/5th of modal width */
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-xs); /* Reduced gap to bring elements closer */
   align-items: center;
 }
 
@@ -315,23 +315,26 @@
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
+  margin-bottom: 0; /* Remove any margin to be snug with carousel */
 }
 
-/* Projects carousel container */
-.projects-carousel {
+/* Projects carousel container - New scrollable design */
+.projects-carousel-container {
   width: 100%;
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  padding: var(--spacing-lg);
-  border-radius: 20px;
   position: relative;
+  padding: var(--spacing-xs) 0; /* Reduced padding to bring closer to heading */
+  margin-top: 0; /* Remove any top margin to be snug with heading */
 }
 
-/* Carousel arrows */
+/* Carousel arrows with glass styling */
 .carousel-arrow {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+  border: 1px solid var(--glass-border) !important;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -340,69 +343,197 @@
   justify-content: center;
   cursor: pointer;
   color: var(--text-primary);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   flex-shrink: 0;
+  z-index: 10;
+  position: relative;
 }
 
-.carousel-arrow:hover {
-  background: rgba(255, 255, 255, 0.2);
+.carousel-arrow:hover:not(:disabled) {
+  background: var(--glass-bg-hover) !important;
   transform: scale(1.05);
 }
 
-/* Projects grid */
-.projects-grid {
-  flex: 1;
-  display: flex;
-  gap: var(--spacing-md);
-  overflow: hidden;
-  justify-content: center;
+.carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
-/* Individual project card */
-.project-card {
+/* Scrollable container for project cards */
+.projects-scroll-container {
   flex: 1;
-  max-width: 30%; /* Each card takes max 30% to fit 3 cards */
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 12px;
-  padding: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-lg);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  padding: var(--spacing-sm) var(--spacing-xs);
+  /* Hide scrollbar but keep functionality */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Ensure cards don't shrink */
+  align-items: flex-start;
+}
+
+.projects-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure React-rendered cards maintain proper spacing */
+.projects-scroll-container > * {
+  flex-shrink: 0;
+}
+
+/* Animated project card with glass styling */
+.animated-project-card {
+  flex-shrink: 0;
+  width: 320px;
+  height: 280px;
+  position: relative;
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+  cursor: pointer;
+  /* Glass background - will be overridden for glass effect */
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate)) !important;
+}
+
+.animated-project-card:hover {
+  transform: scale(1.02);
+  background: var(--glass-bg-hover) !important;
+}
+
+/* Animated grid background for each card */
+.card-animated-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  transition: all 0.2s ease;
+  justify-content: space-between;
+  padding: 16px;
 }
 
-.project-card:hover {
-  transform: translateY(-2px);
+/* Animated balls inside cards */
+.card-animated-ball {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.05);
+  transform: translate(-50%, -50%);
 }
 
-.project-type {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.project-name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: white;
-}
-
-.project-image {
-  width: 100%;
-  aspect-ratio: 1;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.project-placeholder {
-  width: 100%;
-  height: 100%;
+/* Card content sections */
+.card-icon-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.card-main-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-tags-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 10;
+}
+
+.card-category-tag {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 50px;
+  /* Glass styling for tags */
+  background: var(--glass-chat-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+.card-content-section {
+  position: relative;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 8px;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f9fafb;
+  margin-bottom: 6px;
+}
+
+.card-description {
+  color: #9ca3af;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.card-tech-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.card-tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 50px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  /* Glass styling for tech pills */
+  background: var(--glass-chat-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--glass-border) !important;
+}
+
+.card-links-section {
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.card-link {
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.card-link:hover {
+  opacity: 0.8;
 }
 
 /* Projects description - no glass styling */
@@ -413,30 +544,27 @@
   text-align: justify;
   width: 100%;
   max-width: 90%;
+  margin-top: var(--spacing-xs);
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments for new carousel */
 @media (max-width: 768px) {
   .projects-content-container {
     width: 90%; /* Slightly wider on mobile */
   }
   
-  .projects-carousel {
-    flex-direction: column;
+  .projects-carousel-container {
+    flex-direction: row; /* Keep horizontal on tablet */
     gap: var(--spacing-sm);
   }
   
   .carousel-arrow {
-    display: none; /* Hide arrows on mobile for now */
+    width: 36px;
+    height: 36px;
   }
   
-  .projects-grid {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-  
-  .project-card {
-    max-width: 100%;
+  .projects-scroll-container {
+    gap: var(--spacing-md);
   }
   
   .projects-description {
@@ -450,12 +578,18 @@
     width: 95%; /* Nearly full width on very small screens */
   }
   
-  .projects-carousel {
-    padding: var(--spacing-md);
+  .projects-carousel-container {
+    gap: var(--spacing-xs);
   }
   
-  .project-card {
-    padding: var(--spacing-sm);
+  .carousel-arrow {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .projects-scroll-container {
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xs);
   }
 }
 
@@ -647,10 +781,14 @@
   .chat-modal-section {
     width: 95vw;
     height: 95vh;
-    padding-top: calc(100vw / 30);
+    padding-top: var(--spacing-md); /* Consistent minimal padding */
     padding-left: var(--spacing-md);
     padding-right: var(--spacing-md);
     padding-bottom: var(--spacing-md);
+  }
+  
+  .chat-content-area {
+    padding-top: calc(calc(100vw / 15) + var(--spacing-lg)); /* Mobile avatar size + clearance */
   }
   
   .chat-modal-avatar .avatar {
@@ -680,7 +818,14 @@
 @media (max-width: 480px) {
   .chat-modal-section {
     width: 95%;
-    padding: var(--spacing-sm);
+    padding-top: var(--spacing-sm); /* Consistent minimal padding */
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+  }
+  
+  .chat-content-area {
+    padding-top: calc(var(--avatar-size) + var(--spacing-md)); /* Small screen avatar + clearance */
   }
   
   .chat-modal-avatar .avatar {

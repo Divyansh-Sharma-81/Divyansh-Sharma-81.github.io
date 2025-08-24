@@ -1,5 +1,5 @@
 // Main application entry point
-import { ChatModal } from './chat-modal.ts';
+import { ChatModal } from './chat-modal-clean.ts';
 
 declare global {
   interface Window {
@@ -91,7 +91,7 @@ class PortfolioApp {
   // Setup chat modal functionality
   setupChatModal(): void {
     this.chatModal = new ChatModal();
-    console.log('Chat Modal initialized');
+    console.log('Chat Modal initialized with React carousel');
   }
 
   // Initialize theme system
