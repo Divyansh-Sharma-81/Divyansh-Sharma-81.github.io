@@ -4,4 +4,4 @@ instruct.md
 mockup*.png
 usage*.json
 ui_*.png
-node_modules/
+/node_modules/
