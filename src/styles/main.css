@@ -1,9 +1,13 @@
-/* Main CSS - Imports organized component styles */
+/* Main CSS - Hybrid TailwindCSS + Custom Components */
 
+/* Import Tailwind utilities first */
+@import './tailwind.css';
+
+/* Preserve existing custom component styles */
 @import './base.css';
 @import './layout.css';  
 @import './glass-components.css';
 @import './ui-components.css';
 @import './chat-modal.css';
 
-/* Legacy styles cleanup - will be removed after migration */
+/* Future: Gradually migrate component styles to Tailwind utilities */

@@ -1,5 +1,34 @@
 // Chat Modal - Content Replacement System
+
+type PresetSection = 'me' | 'projects' | 'skills' | 'fun' | 'contact';
+
+interface PresetMessages {
+  [key: string]: string;
+}
+
 export class ChatModal {
+  private uiContainer: Element | null;
+  private defaultChatSection: HTMLElement | null;
+  private chatModalSection: HTMLElement | null;
+  private footerSection: Element | null;
+  private chatInput: HTMLInputElement | null;
+  private sendButton: HTMLElement | null;
+  private userMessageText: HTMLElement | null;
+  private aiResponseText: HTMLElement | null;
+  private aiMessageArea: HTMLElement | null;
+  private loadingDots: HTMLElement | null;
+  private chatInputField: HTMLInputElement | null;
+  private sendButtonModal: HTMLElement | null;
+  private chatCloseBtn: HTMLElement | null;
+  private questionsToggle: HTMLElement | null;
+  private quickQuestionsGrid: HTMLElement | null;
+  private meShowcase: HTMLElement | null;
+  private projectsShowcase: HTMLElement | null;
+  private isChatMode: boolean = false;
+  private questionsCollapsed: boolean = false;
+  private isPresetQuestion: boolean = false;
+  private currentSection: PresetSection | null = null;
+
   constructor() {
     // Debug: Check if elements exist
     this.uiContainer = document.querySelector('.ui-container');
@@ -42,12 +71,12 @@ export class ChatModal {
     this.init();
   }
 
-  init() {
+  init(): void {
     this.setupEventListeners();
     this.setupQuickQuestions();
   }
 
-  setupEventListeners() {
+  setupEventListeners(): void {
     // Original chat input (typed questions)
     this.chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter' && this.chatInput.value.trim()) {
@@ -92,7 +121,7 @@ export class ChatModal {
     });
   }
 
-  setupQuickQuestions() {
+  setupQuickQuestions(): void {
     // Setup original footer buttons
     const originalButtons = document.querySelectorAll('.footer-section .preset-btn');
     
@@ -115,8 +144,8 @@ export class ChatModal {
     });
   }
 
-  getPresetMessage(section) {
-    const presetMessages = {
+  getPresetMessage(section: string): string {
+    const presetMessages: PresetMessages = {
       me: "Tell me about yourself. What do you work on?",
       projects: "Show me your most interesting projects and what makes them special.",
       skills: "What are your technical skills and areas of expertise?",
@@ -127,7 +156,7 @@ export class ChatModal {
     return presetMessages[section] || "Tell me more about this section.";
   }
 
-  enterChatMode(message, isPreset = false, section = null) {
+  enterChatMode(message: string, isPreset: boolean = false, section: PresetSection | null = null): void {
     console.log('Entering chat mode with message:', message, 'isPreset:', isPreset, 'section:', section);
     this.isChatMode = true;
     this.isPresetQuestion = isPreset;
@@ -169,7 +198,7 @@ export class ChatModal {
     }, 500);
   }
 
-  exitChatMode() {
+  exitChatMode(): void {
     this.isChatMode = false;
     
     // Remove active state
@@ -197,7 +226,7 @@ export class ChatModal {
     }
   }
 
-  sendNewMessage(message, isPreset = false, section = null) {
+  sendNewMessage(message: string, isPreset: boolean = false, section: PresetSection | null = null): void {
     // Update user message display
     this.userMessageText.textContent = message;
     this.isPresetQuestion = isPreset;
@@ -215,7 +244,7 @@ export class ChatModal {
     }, 2000);
   }
 
-  showAIThinking() {
+  showAIThinking(): void {
     // Show the entire AI logo + loading section
     const aiLogoResponse = document.querySelector('.ai-logo-response');
     
@@ -229,7 +258,7 @@ export class ChatModal {
     this.loadingDots.style.display = 'flex';
   }
 
-  hideAllResponses() {
+  hideAllResponses(): void {
     // Hide regular text response
     if (this.aiMessageArea) {
       this.aiMessageArea.style.display = 'none';
@@ -244,7 +273,7 @@ export class ChatModal {
     }
   }
 
-  hideUserMessage() {
+  hideUserMessage(): void {
     // Hide user message bubble for preset showcases
     const userMessageDisplay = document.querySelector('.user-message-display');
     if (userMessageDisplay) {
@@ -252,7 +281,7 @@ export class ChatModal {
     }
   }
 
-  showUserMessage() {
+  showUserMessage(): void {
     // Show user message bubble for regular responses
     const userMessageDisplay = document.querySelector('.user-message-display');
     if (userMessageDisplay) {
@@ -260,7 +289,7 @@ export class ChatModal {
     }
   }
 
-  showResponse(isPreset, section) {
+  showResponse(isPreset: boolean, section: PresetSection | null): void {
     // Hide the AI logo + loading section
     const aiLogoResponse = document.querySelector('.ai-logo-response');
     if (aiLogoResponse) {
@@ -289,7 +318,7 @@ export class ChatModal {
     }
   }
 
-  simulateAIResponse(userMessage, isPreset = false, section = null) {
+  simulateAIResponse(userMessage: string, isPreset: boolean = false, section: PresetSection | null = null): void {
     console.log('Simulating AI response:', { userMessage, isPreset, section });
     
     if (isPreset && section === 'me') {
@@ -306,8 +335,8 @@ export class ChatModal {
     }
   }
 
-  generateResponse(message) {
-    const lowerMessage = message.toLowerCase();
+  generateResponse(message: string): string {
+    const lowerMessage: string = message.toLowerCase();
     
     // Enhanced responses for portfolio context
     if (lowerMessage.includes('yourself') || lowerMessage.includes('about you')) {
@@ -325,7 +354,7 @@ export class ChatModal {
     }
   }
 
-  toggleQuestions() {
+  toggleQuestions(): void {
     this.questionsCollapsed = !this.questionsCollapsed;
     
     if (this.questionsCollapsed) {

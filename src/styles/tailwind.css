@@ -1,0 +1,45 @@
+/* TailwindCSS imports */
+@import 'tailwindcss';
+
+/* Custom glassmorphism utility classes */
+.glass-panel-tw {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.1s ease-in-out;
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+.glass-panel-tw:hover {
+  background: rgba(211, 211, 211, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-pill-tw {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  box-shadow: 0 8px 25px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.1s ease-in-out;
+  transform: translateZ(0);
+  will-change: backdrop-filter;
+}
+
+.glass-pill-tw:hover {
+  background: rgba(211, 211, 211, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px 0 rgba(0, 0, 0, 0.2);
+}
+
+.glass-modal-tw {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.15);
+}

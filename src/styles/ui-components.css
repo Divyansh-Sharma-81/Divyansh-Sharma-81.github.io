@@ -1,3 +1,70 @@
+/* Theme Toggle Button */
+.theme-toggle {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.theme-icon {
+  position: absolute;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-icon--light {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.theme-icon--dark {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+/* Dark theme icon visibility */
+.dark .theme-icon--light {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+.dark .theme-icon--dark {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+/* Responsive theme toggle */
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* Header Section - Logo only */
 .header-section {
   display: flex;
@@ -21,12 +88,38 @@
 .logo-container {
   padding: var(--spacing-sm);
   border-radius: 12px;
+  position: relative;
+  width: 56px; /* 40px logo + 2 * 8px padding */
+  height: 56px; /* 40px logo + 2 * 8px padding */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .logo {
   width: 40px;
   height: 40px;
   display: block;
+  position: absolute;
+  transition: opacity 0.3s ease;
+}
+
+/* Theme-aware logo visibility */
+.logo--dark {
+  opacity: 1;
+}
+
+.logo--light {
+  opacity: 0;
+}
+
+/* Dark theme logo switching */
+.dark .logo--dark {
+  opacity: 0;
+}
+
+.dark .logo--light {
+  opacity: 1;
 }
 
 .greeting {
@@ -129,7 +222,7 @@
 }
 
 .send-button:hover {
-  background: #0066CC;
+  background: var(--accent-hover);
   transform: scale(1.05);
   box-shadow: 0 8px 24px rgba(0, 122, 255, 0.4);
 }

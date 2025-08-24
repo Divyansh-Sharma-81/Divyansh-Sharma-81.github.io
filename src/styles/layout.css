@@ -1,6 +1,6 @@
 /* Background Layers */
 
-/* Grid Background Layer */
+/* Grid Background Layer - Theme-aware */
 .grid-background {
   position: fixed;
   top: 0;
@@ -9,28 +9,13 @@
   height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background-color: #ffffff;
+  background-color: var(--body-bg);
   background-image: 
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: var(--grid-size) var(--grid-size);
   background-position: 0 0, 0 0;
-}
-
-.grid-background-dark {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  background-color: #161616;
-  background-image: 
-    linear-gradient(var(--grid-color-dark) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color-dark) 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
-  background-position: 0 0, 0 0;
+  transition: background-color 0.3s ease, background-image 0.3s ease;
 }
 
 /* Fluid Canvas Layer */

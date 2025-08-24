@@ -100,11 +100,32 @@
   align-items: center;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
+  position: relative;
 }
 
 .ai-logo {
   width: 32px;
   height: 32px;
+  position: absolute;
+  transition: opacity 0.3s ease;
+}
+
+/* Theme-aware AI logo visibility */
+.ai-logo--dark {
+  opacity: 1;
+}
+
+.ai-logo--light {
+  opacity: 0;
+}
+
+/* Dark theme AI logo switching */
+.dark .ai-logo--dark {
+  opacity: 0;
+}
+
+.dark .ai-logo--light {
+  opacity: 1;
 }
 
 /* Loading Dots Animation */
@@ -112,6 +133,7 @@
   display: flex;
   gap: 4px;
   align-items: center;
+  margin-left: 40px; /* Space for the logo */
 }
 
 .loading-dots span {

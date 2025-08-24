@@ -45,7 +45,7 @@ let config = {
     COLORFUL: true, // From your settings: enabled
     COLOR_UPDATE_SPEED: 10,
     PAUSED: false, // From your settings: not paused
-    BACK_COLOR: { r: 255/255, g: 255/255, b: 255/255 }, // From your settings: (r:255,g:255,b:255)
+    BACK_COLOR: { r: 1.0, g: 1.0, b: 1.0 }, // Theme-aware background color
     TRANSPARENT: true, // Enable transparency to show grid background
     BLOOM: true, // From your settings: enabled
     BLOOM_ITERATIONS: 8,
@@ -1095,6 +1095,9 @@ function calcDeltaTime () {
     lastUpdateTime = now;
     return dt;
 }
+
+// Expose config globally for theme system
+window.fluidSimulationConfig = config;
 
 function resizeCanvas () {
     let width = scaleByPixelRatio(canvas.clientWidth);
