@@ -106,13 +106,13 @@
   align-items: center;
   gap: var(--spacing-sm);
   margin-bottom: var(--spacing-xs);
-  position: relative;
+  flex-shrink: 0; /* Prevent logo from shrinking when content is long */
 }
 
 .ai-logo {
   width: 32px;
   height: 32px;
-  position: absolute;
+  flex-shrink: 0; /* Prevent logo from shrinking */
   transition: opacity 0.3s ease;
 }
 
@@ -139,7 +139,7 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  margin-left: 40px; /* Space for the logo */
+  flex-shrink: 0; /* Prevent dots from shrinking */
 }
 
 .loading-dots span {
@@ -410,8 +410,17 @@
 }
 
 .animated-project-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
   background: var(--glass-bg-hover) !important;
+}
+
+/* AIShiro Card - Green Glow Theme */
+.animated-project-card--aishiro {
+  box-shadow: 0 0 15px #22c55e60, 0 0 30px #22c55e30;
+}
+
+.animated-project-card--aishiro:hover {
+  box-shadow: 0 0 30px #22c55e80, 0 0 60px #22c55e40, 0 0 90px #22c55e20;
 }
 
 /* Animated grid background for each card */
@@ -608,6 +617,27 @@
   gap: var(--spacing-md);
 }
 
+/* Fun Showcase - Interactive draggable cards layout */
+.fun-showcase {
+  width: 100%;
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Fun content container - full width */
+.fun-content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  /* Ensure no overflow restrictions that could limit dragging */
+  overflow: visible;
+  position: relative;
+}
+
 /* Main content container - full width like projects */
 .skills-content-container {
   width: 100%;
@@ -784,6 +814,27 @@
   /* Adjust ai-response-area max-height for very small screens */
   .ai-response-area {
     max-height: calc(95vh - 160px - var(--avatar-size) - var(--spacing-md) * 2);
+  }
+}
+
+/* Responsive adjustments for fun showcase */
+@media (max-width: 768px) {
+  .fun-showcase {
+    gap: var(--spacing-xs);
+  }
+  
+  .fun-content-container {
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .fun-showcase {
+    gap: calc(var(--spacing-xs) * 0.5);
+  }
+  
+  .fun-content-container {
+    width: 98%;
   }
 }
 

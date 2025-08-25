@@ -116,8 +116,10 @@ const TechPill: React.FC<TechPillProps> = ({ icon, label }) => (<div className="
 const AIShiroCard: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
     const hoverStyle = {
-        transform: isHovered ? 'scale(1.02)' : 'scale(1)',
-        boxShadow: isHovered ? `0 25px 50px -12px ${theme.glow}40` : '0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.5)',
+        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+        boxShadow: isHovered 
+            ? `0 0 30px ${theme.glow}80, 0 0 60px ${theme.glow}40, 0 0 90px ${theme.glow}20`
+            : `0 0 15px ${theme.glow}60, 0 0 30px ${theme.glow}30`,
         transition: 'all 0.3s ease-in-out',
     };
 

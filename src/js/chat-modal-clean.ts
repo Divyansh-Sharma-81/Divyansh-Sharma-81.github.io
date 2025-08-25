@@ -35,6 +35,7 @@ export class ChatModal {
   private meShowcase: HTMLElement | null;
   private projectsShowcase: HTMLElement | null;
   private skillsShowcase: HTMLElement | null;
+  private funShowcase: HTMLElement | null;
   private isChatMode: boolean = false;
   private questionsCollapsed: boolean = false;
   private isPresetQuestion: boolean = false;
@@ -67,6 +68,7 @@ export class ChatModal {
     this.meShowcase = document.getElementById('meShowcase');
     this.projectsShowcase = document.getElementById('projectsShowcase');
     this.skillsShowcase = document.getElementById('skillsShowcase');
+    this.funShowcase = document.getElementById('funShowcase');
     
     this.init();
   }
@@ -75,6 +77,7 @@ export class ChatModal {
     this.setupEventListeners();
     this.setupQuickQuestions();
     this.initializeReactCarousel();
+    this.initializeFunShowcase();
   }
 
   setupEventListeners(): void {
@@ -181,6 +184,34 @@ export class ChatModal {
       const projectsContainer = document.getElementById('projectsScrollContainer');
       if (projectsContainer) {
         projectsContainer.innerHTML = '<div class="p-4 text-center text-white">Loading projects...</div>';
+      }
+    }
+  }
+
+  async initializeFunShowcase(): Promise<void> {
+    try {
+      // Dynamically import React and ReactDOM
+      const [React, ReactDOM] = await Promise.all([
+        import('react'),
+        import('react-dom/client')
+      ]);
+      
+      // Dynamically import the fun showcase component
+      const { FunShowcase } = await import('../components/ui/fun-showcase');
+      
+      // Find the fun content container
+      const funContainer = document.getElementById('funContentContainer');
+      if (funContainer) {
+        // Create React root and render the fun showcase
+        const funReactRoot = ReactDOM.createRoot(funContainer);
+        funReactRoot.render(React.createElement(FunShowcase));
+      }
+    } catch (error) {
+      console.error('Failed to initialize Fun showcase:', error);
+      // Fallback to showing simple message
+      const funContainer = document.getElementById('funContentContainer');
+      if (funContainer) {
+        funContainer.innerHTML = '<div class="p-4 text-center text-white">Loading fun content...</div>';
       }
     }
   }
@@ -312,6 +343,9 @@ export class ChatModal {
     if (this.skillsShowcase) {
       this.skillsShowcase.style.display = 'none';
     }
+    if (this.funShowcase) {
+      this.funShowcase.style.display = 'none';
+    }
   }
 
   hideUserMessage(): void {
@@ -358,6 +392,12 @@ export class ChatModal {
         // Generate skills showcase with animations
         this.generateSkillsShowcase();
       }
+    } else if (isPreset && section === 'fun') {
+      // Hide user message and show Fun showcase
+      this.hideUserMessage();
+      if (this.funShowcase) {
+        this.funShowcase.style.display = 'flex';
+      }
     } else {
       // Show user message and regular text response
       this.showUserMessage();
@@ -377,6 +417,9 @@ export class ChatModal {
     } else if (isPreset && section === 'skills') {
       // Show Skills showcase instead of text response
       this.showResponse(true, 'skills');
+    } else if (isPreset && section === 'fun') {
+      // Show Fun showcase instead of text response
+      this.showResponse(true, 'fun');
     } else {
       // Generate and show regular text response
       const response = this.generateResponse(userMessage);
@@ -497,14 +540,16 @@ export class ChatModal {
     skillsDescription.innerHTML = '';
     
     const skillsData = this.getSkillsData();
-    const TAG_STAGGER_DELAY = 60; // milliseconds between each tag animation
     const TYPING_SPEED = 5; // milliseconds per character
     
-    // Calculate total tags for paragraph timing (like reference code)
-    const totalTags = skillsData.reduce((acc, cat) => acc + cat.skills.length, 0);
+    // Animation timing: tags appear one-by-one within each category (typing effect)
+    const TAG_DELAY_WITHIN_CATEGORY = 80; // milliseconds between tags within same category
     
-    // Global delay counter for continuous animation across all categories
-    let globalDelay = 0;
+    // Find the longest category to calculate total animation duration
+    const maxCategoryLength = Math.max(...skillsData.map(cat => cat.skills.length));
+    const maxCategoryDuration = maxCategoryLength * TAG_DELAY_WITHIN_CATEGORY;
+    
+    console.log(`Skills animation: Max category has ${maxCategoryLength} tags, total duration ~${maxCategoryDuration}ms`);
     
     // Generate skill categories
     skillsData.forEach((category) => {
@@ -520,18 +565,18 @@ export class ChatModal {
       const tagsDiv = document.createElement('div');
       tagsDiv.className = 'skills-tags';
       
-      // Create individual skill tags with continuous global delay
-      category.skills.forEach((skill) => {
+      // Create individual skill tags with typing effect within each category
+      category.skills.forEach((skill, tagIndex) => {
         const tagDiv = document.createElement('div');
         tagDiv.className = 'skill-tag-animated glass-panel glass-panel--chat-element';
         tagDiv.textContent = skill.name;
         
-        // Add animation delay using global counter (like reference code)
+        // Each tag within this category appears with incremental delay (typing effect)
+        const tagDelay = tagIndex * TAG_DELAY_WITHIN_CATEGORY;
         setTimeout(() => {
           tagDiv.classList.add('visible');
-        }, globalDelay);
+        }, tagDelay);
         
-        globalDelay += TAG_STAGGER_DELAY; // Increment for next tag across all categories
         tagsDiv.appendChild(tagDiv);
       });
       
@@ -540,12 +585,15 @@ export class ChatModal {
       skillsCategories.appendChild(categoryDiv);
     });
     
-    // Add typing animation for description paragraphs (like reference code)
+    // Add typing animation for description paragraphs - starts after all categories finish their tag animations
     const paragraph1 = "I've got a solid set of skills! For hard skills, I'm into frontend development with HTML, CSS, JavaScript, and frameworks like Next.js. On the backend, I work with Python, C, and Unix.";
     const paragraph2 = "When it comes to soft skills, I excel in communication, problem-solving, and adaptability. I'm a team player and love getting creative with challenges. Want to know how I apply any of these skills in my projects? 😊";
     
-    const paragraph1StartDelay = totalTags * TAG_STAGGER_DELAY + 200;
+    // Start typing after the longest category finishes + buffer
+    const paragraph1StartDelay = maxCategoryDuration + 300;
     const paragraph2StartDelay = paragraph1StartDelay + paragraph1.length * TYPING_SPEED + 300;
+    
+    console.log(`Typing will start after ${paragraph1StartDelay}ms`);
     
     // Create paragraph elements
     const para1Div = document.createElement('div');
