@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 // Type for the animated balls
 type Ball = {
@@ -255,32 +254,27 @@ const AIShiroModal: React.FC<AIShiroModalProps> = ({ isOpen, onClose }) => {
         { name: "AI", icon: <AIIcon /> }
     ];
 
-    // Screen transition management - add class to body
+    // Prevent body scrolling when modal is open
     React.useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            document.body.classList.add('project-modal-mode');
         } else {
             document.body.style.overflow = 'unset';
-            document.body.classList.remove('project-modal-mode');
         }
         
         return () => {
             document.body.style.overflow = 'unset';
-            document.body.classList.remove('project-modal-mode');
         };
     }, [isOpen]);
 
     if (!isOpen) return null;
 
-    const projectModalContent = document.getElementById('projectModalContent');
-    if (!projectModalContent) return null;
-
-    return createPortal(
-        <div className="project-modal-glass relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
+    return (
+        <div className="fixed inset-0 flex items-center justify-center font-sans text-white z-50" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
+            <div className="bg-[#161616] rounded-2xl shadow-2xl shadow-black/50 p-8 relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
                 <button 
                     onClick={onClose}
-                    className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center cursor-pointer text-gray-500 rounded-full project-close-glass"
+                    className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
                 >
                     <CloseIcon />
                 </button>
@@ -412,8 +406,8 @@ const AIShiroModal: React.FC<AIShiroModalProps> = ({ isOpen, onClose }) => {
                         </button>
                     </div>
                 </div>
-            </div>,
-        projectModalContent
+            </div>
+        </div>
     );
 };
 

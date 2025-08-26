@@ -29,8 +29,12 @@ const ProjectsCarousel: React.FC = () => {
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setIsAtStart(scrollLeft < 10);
-      setIsAtEnd(scrollWidth - scrollLeft - clientWidth < 10);
+      
+      // Only update state if container has valid dimensions
+      if (scrollWidth > 0 && clientWidth > 0) {
+        setIsAtStart(scrollLeft < 10);
+        setIsAtEnd(scrollWidth - scrollLeft - clientWidth < 10);
+      }
     }
   };
 
@@ -48,8 +52,19 @@ const ProjectsCarousel: React.FC = () => {
     const container = scrollContainerRef.current;
     if (container) {
       container.addEventListener('scroll', handleScroll);
-      handleScroll(); // Initial check
-      return () => container.removeEventListener('scroll', handleScroll);
+      
+      // Defer initial check until after DOM is fully rendered
+      const rafId = requestAnimationFrame(() => {
+        // Double RAF to ensure layout is complete
+        requestAnimationFrame(() => {
+          handleScroll();
+        });
+      });
+      
+      return () => {
+        container.removeEventListener('scroll', handleScroll);
+        cancelAnimationFrame(rafId);
+      };
     }
   }, []);
 

@@ -90,24 +90,3 @@
   box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Project Modal Glass - Standalone classes with NO hover effects */
-.project-modal-glass {
-  background: var(--glass-modal-bg) !important;
-  backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate)) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(var(--glass-backdrop-saturate)) !important;
-  border: 1px solid var(--glass-modal-border) !important;
-  box-shadow: var(--glass-modal-shadow) !important;
-  border-radius: 24px !important;
-  padding: var(--spacing-lg) !important;
-  /* NO hover effects at all */
-}
-
-/* Project Modal Close Button - Standalone glass with NO hover effects */
-.project-close-glass {
-  background: var(--glass-chat-bg) !important;
-  backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(150%) !important;
-  border: 1px solid var(--glass-chat-border) !important;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15) !important;
-  /* NO hover effects or transitions */
-}

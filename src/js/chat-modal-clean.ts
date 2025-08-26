@@ -554,92 +554,92 @@ export class ChatModal {
   }
 
   // Generate skills showcase with animations
+
+  // Generate skills showcase with animations — each category's tags appear left->right within 3 seconds
   generateSkillsShowcase(): void {
     const skillsCategories = document.getElementById('skillsCategories');
     const skillsDescription = document.getElementById('skillsDescription');
-    
     if (!skillsCategories || !skillsDescription) return;
-    
+
     // Clear previous content
     skillsCategories.innerHTML = '';
     skillsDescription.innerHTML = '';
-    
+
     const skillsData = this.getSkillsData();
-    const TYPING_SPEED = 5; // milliseconds per character
-    
-    // Animation timing: tags appear one-by-one within each category (typing effect)
-    const TAG_DELAY_WITHIN_CATEGORY = 80; // milliseconds between tags within same category
-    
-    // Find the longest category to calculate total animation duration
-    const maxCategoryLength = Math.max(...skillsData.map(cat => cat.skills.length));
-    const maxCategoryDuration = maxCategoryLength * TAG_DELAY_WITHIN_CATEGORY;
-    
-    console.log(`Skills animation: Max category has ${maxCategoryLength} tags, total duration ~${maxCategoryDuration}ms`);
-    
-    // Generate skill categories
+
+    // Total time window for all tags in one category to appear (milliseconds)
+    const TAG_APPEAR_WINDOW = 3000;
+
+    // Create skill categories
     skillsData.forEach((category) => {
       const categoryDiv = document.createElement('div');
       categoryDiv.className = 'skill-category';
-      
+
       // Create category title with icon
       const titleDiv = document.createElement('div');
       titleDiv.className = 'category-title';
       titleDiv.innerHTML = `${category.icon}<span>${category.title}</span>`;
-      
+
       // Create skills tags container
       const tagsDiv = document.createElement('div');
       tagsDiv.className = 'skills-tags';
-      
-      // Create individual skill tags with typing effect within each category
+
+      const skillCount = Math.max(1, category.skills.length);
+      // Per-tag delay so all tags in this category finish within TAG_APPEAR_WINDOW
+      const perTagDelay = TAG_APPEAR_WINDOW / skillCount;
+
       category.skills.forEach((skill, tagIndex) => {
         const tagDiv = document.createElement('div');
         tagDiv.className = 'skill-tag-animated glass-panel glass-panel--chat-element';
         tagDiv.textContent = skill.name;
-        
-        // Each tag within this category appears with incremental delay (typing effect)
-        const tagDelay = tagIndex * TAG_DELAY_WITHIN_CATEGORY;
+
+        // Initially not visible (CSS should handle .skill-tag-animated defaults)
+        // Reveal each tag left->right within the category's 3s window
+        const revealAt = Math.round(tagIndex * perTagDelay);
         setTimeout(() => {
           tagDiv.classList.add('visible');
-        }, tagDelay);
-        
+        }, revealAt);
+
         tagsDiv.appendChild(tagDiv);
       });
-      
+
       categoryDiv.appendChild(titleDiv);
       categoryDiv.appendChild(tagsDiv);
       skillsCategories.appendChild(categoryDiv);
     });
-    
-    // Add typing animation for description paragraphs - starts after all categories finish their tag animations
+
+    // Typing paragraphs: start after the longest category finishes (TAG_APPEAR_WINDOW)
     const paragraph1 = "I've got a solid set of skills! For hard skills, I'm into frontend development with HTML, CSS, JavaScript, and frameworks like Next.js. On the backend, I work with Python, C, and Unix.";
     const paragraph2 = "When it comes to soft skills, I excel in communication, problem-solving, and adaptability. I'm a team player and love getting creative with challenges. Want to know how I apply any of these skills in my projects? 😊";
-    
-    // Start typing after the longest category finishes + buffer
-    const paragraph1StartDelay = maxCategoryDuration + 300;
-    const paragraph2StartDelay = paragraph1StartDelay + paragraph1.length * TYPING_SPEED + 300;
-    
-    console.log(`Typing will start after ${paragraph1StartDelay}ms`);
-    
-    // Create paragraph elements
+
+    const BUFFER_AFTER_TAGS = 300; // small buffer after tags finish
+    const paragraph1StartDelay = TAG_APPEAR_WINDOW + BUFFER_AFTER_TAGS;
+    const TYPING_SPEED_PER_CHAR = 20; // ms per character (readable typing pace)
+    const paragraph2StartDelay = paragraph1StartDelay + (paragraph1.length * TYPING_SPEED_PER_CHAR) + 300;
+
+    // Create paragraph elements and start typing
     const para1Div = document.createElement('div');
     para1Div.className = 'typing-paragraph';
     const para2Div = document.createElement('div');
     para2Div.className = 'typing-paragraph';
-    
+
     skillsDescription.appendChild(para1Div);
     skillsDescription.appendChild(para2Div);
-    
-    // Start typing animations
+
     this.startTypingAnimation(para1Div, paragraph1, paragraph1StartDelay);
     this.startTypingAnimation(para2Div, paragraph2, paragraph2StartDelay);
   }
 
-  // Typing animation helper method
+  // Typing animation helper method — types text into element after startDelay (ms)
   startTypingAnimation(element: HTMLElement, text: string, startDelay: number): void {
-    const TYPING_SPEED = 5;
-    
+    const TYPING_SPEED = 20; // ms per character
+
+    // safety: clear any previous content
+    element.textContent = '';
+
     setTimeout(() => {
       let i = 0;
+      // cursor shown as '|' while typing (keeps previous UX)
       const typingInterval = setInterval(() => {
         if (i < text.length) {
           element.textContent = text.substring(0, i + 1) + '|';
@@ -651,4 +651,5 @@ export class ChatModal {
       }, TYPING_SPEED);
     }, startDelay);
   }
+
 }

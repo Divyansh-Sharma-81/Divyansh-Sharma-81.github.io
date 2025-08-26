@@ -1021,61 +1021,6 @@
   pointer-events: all; /* Re-enable pointer events for the modal content */
 }
 
-/* Hide/Show States for Project Modal Mode */
-body.project-modal-mode .header-section {
-  display: none;
-}
-
-body.project-modal-mode .text-section {
-  display: none;
-}
-
-body.project-modal-mode .main-content {
-  display: none; /* Hide entire main-content area */
-}
-
-body.project-modal-mode .footer-section {
-  display: none;
-}
-
-body.project-modal-mode #chatModalSection {
-  display: none !important; /* Hide chat modal when project modal is open */
-}
-
-/* Blur the grid background when project modal is open */
-body.project-modal-mode .grid-background {
-  filter: blur(8px) !important;
-  -webkit-filter: blur(8px) !important;
-}
-
-/* Stop fluid canvas when project modal is open */
-body.project-modal-mode .fluid-canvas {
-  pointer-events: none !important;
-}
-
-/* Project Modal Section - Full screen takeover when active */
-.project-modal-section {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: none; /* Hidden by default */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  opacity: 0;
-  transform: scale(0.95);
-  transition: all 0.3s ease;
-}
-
-body.project-modal-mode #projectModalSection {
-  display: flex !important;
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: all; /* Re-enable pointer events for the modal content */
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {

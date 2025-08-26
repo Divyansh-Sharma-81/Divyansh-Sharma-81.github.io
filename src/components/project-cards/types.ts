@@ -19,3 +19,4 @@ export interface ThemeColors {
   gridCell: string;
   bgColor: string;
 }
+
