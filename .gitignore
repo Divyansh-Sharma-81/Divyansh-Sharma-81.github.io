@@ -8,3 +8,5 @@ ui_*.png
 reference.png
 .env
 .vercel
+.env.local
+.venv
