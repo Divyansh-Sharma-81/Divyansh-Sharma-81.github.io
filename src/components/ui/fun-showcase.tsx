@@ -7,41 +7,48 @@ import {
 // Personal fun cards data - adapted for Divyansh's interests
 const FUN_CARDS = [
   {
-    title: "Music Producer",
-    image: "https://picsum.photos/seed/music/256/256",
-    description: "Love creating beats and electronic music in my free time 🎵",
+    title: "Drumming",
+    image: "https://i.redd.it/t96n3n9eyhld1.jpeg",
+    description: "Love creating beats and jamming to music in my free time 🎵",
     className: "absolute top-[10%] left-[15%] rotate-[-8deg] z-10",
   },
   {
     title: "3D Designer",
-    image: "https://picsum.photos/seed/3d/256/256", 
+    image: "./assets/3d_design.jpg", 
     description: "Started with 3D design before getting into AI development 🎨",
     className: "absolute top-[30%] left-[25%] rotate-[5deg] z-20",
   },
   {
-    title: "Tech Explorer",
-    image: "https://picsum.photos/seed/tech/256/256",
-    description: "Always experimenting with the latest AI research papers 🔬",
+    title: "Brewing Coffee",
+    image: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1500w,f_auto,q_auto:best/rockcms/2024-10/241003-espresso-machines-oo-main-6de618.jpg",
+    description: "Love trying out different different flavours of coffee whenever I get the chance",
     className: "absolute top-[5%] left-[50%] rotate-[12deg] z-15",
   },
   {
-    title: "Product Builder", 
-    image: "https://picsum.photos/seed/startup/256/256",
-    description: "Passionate about building user-friendly AI-powered products 🚀",
+    title: "Long Drives", 
+    image: "https://www.team-bhp.com/forum/attachments/travelogues/465944d1291816088-around-india-7-days-gq-drive-img_4045.jpg",
+    description: "Passionate about going to road trips and long drives while jamming to good music!! ",
     className: "absolute top-[40%] left-[60%] rotate-[-3deg] z-25",
   },
   {
-    title: "IIT Kharagpur",
-    image: "https://picsum.photos/seed/college/256/256", 
-    description: "Currently pursuing Bachelor's from IIT Kharagpur 🎓",
+    title: "Occasional Skating",
+    image: "https://preview.redd.it/is-this-still-good-to-skate-board-is-3-weeks-old-v0-xaqyqfz7focc1.jpeg?width=1080&crop=smart&auto=webp&s=9c50f4f9cc79d341687051ce2deff575b23fb299", 
+    description: "Head out during some evenings with my board. Was an active skateboarder during high school and even broke 2 boards trying out some stunts :)",
     className: "absolute top-[15%] right-[15%] rotate-[8deg] z-20",
   },
   {
-    title: "AI Research",
-    image: "https://picsum.photos/seed/ai/256/256",
-    description: "Building AI agents and pipelines at AIRAA.xyz 🤖",
+    title: "Puzzles and books",
+    image: "https://static01.nyt.com/images/2024/07/01/multimedia/01SCI-RUBIKS-04-gvjq/01SCI-RUBIKS-04-gvjq-articleLarge.jpg?quality=75&auto=webp&disable=upscale",
+    description: "Solving the rubiks cube or reading a non fiction when I'm free is how I chill nowadays.",
     className: "absolute top-[45%] left-[40%] rotate-[-6deg] z-30",
   },
+  {
+    title: "Occasional Gaming",
+    image: "https://bizdaddy.ae/wp-content/uploads/2023/08/pexels-photo-3977908-3-768x512.jpeg",
+    description: "Hop onto some old saves of Cyberpunk or Valo sessions with the boys every month or two. Was an active console player during high school. Fav game: God of war 3 hands down",
+    className: "absolute top-[10%] left-[40%] rotate-[-6deg] z-30",
+  },
+  
 ];
 
 interface PolaroidContentProps {

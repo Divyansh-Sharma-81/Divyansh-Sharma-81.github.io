@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 // Import all project cards
-import DressifyCard from './project-cards/DressifyCard';
+import AIRAACard from './project-cards/AIRAACard';
 import AIShiroCard from './project-cards/AIShiroCard';
 import MosaicCard from './project-cards/MosaicCard';
 import ReefChatCard from './project-cards/ReefChatCard';
@@ -16,7 +16,7 @@ const ProjectsCarousel: React.FC = () => {
   const [isAtEnd, setIsAtEnd] = useState(false);
 
   const cardComponents = [
-    <DressifyCard key="dressify" />,
+    <AIRAACard key="airaa" />,
     <AIShiroCard key="aishiro" />,
     <MosaicCard key="mosaic" />,
     <ReefChatCard key="reefchat" />,

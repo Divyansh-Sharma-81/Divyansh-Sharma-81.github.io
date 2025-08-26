@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import AIShiroModal from './AIShiroModal';
 import type { Ball, ThemeColors } from './types';
 
 // THEME AND TITLE ARE NOW HARDCODED HERE
@@ -7,8 +8,9 @@ const title = "AIshiro";
 
 interface AnimatedGridProps {
     children: React.ReactNode;
+    heightClass?: string; // e.g., 'h-56 md:h-64 lg:h-72'
 }
-const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children }) => {
+const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children, heightClass }) => {
     const createInitialBalls = (): Ball[] => {
         const initialBalls: Ball[] = [];
         const now = Date.now();
@@ -90,8 +92,9 @@ const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children }) => {
     const gridCellSvg = `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="30" height="30" rx="6" fill="${theme.gridCell}" /></svg>`;
     const backgroundImageUrl = `url("data:image/svg+xml,${encodeURIComponent(gridCellSvg)}")`;
 
+    const hClass = heightClass || 'h-56';
     return (
-        <div className="relative w-full h-56 rounded-xl overflow-hidden p-4 flex flex-col justify-between" 
+        <div className={`relative w-full ${hClass} rounded-xl overflow-hidden p-4 flex flex-col justify-between`} 
             style={{ backgroundColor: theme.bgColor, backgroundImage: backgroundImageUrl, backgroundSize: '2.5rem 2.5rem' }}>
             {balls.map((ball) => (
                 <div key={ball.id} className="absolute bg-white/10 rounded-full animate-fade-in-out"
@@ -115,16 +118,47 @@ const TechPill: React.FC<TechPillProps> = ({ icon, label }) => (<div className="
 
 const AIShiroCard: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
-    const hoverStyle = {
-        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-        boxShadow: isHovered 
-            ? `0 0 30px ${theme.glow}80, 0 0 60px ${theme.glow}40, 0 0 90px ${theme.glow}20`
-            : `0 0 15px ${theme.glow}60, 0 0 30px ${theme.glow}30`,
-        transition: 'all 0.3s ease-in-out',
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
+    // Ambient glow behind card (logical sizing, no hardcoded px where not needed)
+    const baseGlow = `${theme.glow}`;
+    const cardStyle: React.CSSProperties = {
+        transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+        transition: 'transform 200ms ease',
+        // No shadow from the card itself; glow is produced by edge/aura underlays
+        boxShadow: 'none'
     };
 
     return (
-        <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <>
+        <div
+            className="relative w-80"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            {/* Edge halo behind the card (sibling layer) */}
+            <div
+                aria-hidden
+                className="pointer-events-none absolute -inset-2 rounded-2xl"
+                style={{
+                    border: `2px solid ${baseGlow}0a`, // minimal alpha to provide shape
+                    filter: isHovered
+                        ? `drop-shadow(0 0 18px ${baseGlow}88) drop-shadow(0 0 40px ${baseGlow}55)`
+                        : `drop-shadow(0 0 10px ${baseGlow}55) drop-shadow(0 0 26px ${baseGlow}33)`,
+                    transition: 'filter 200ms ease',
+                    willChange: 'filter'
+                }}
+            />
+
+            {/* Actual glass card */}
+            <div
+                className="relative overflow-hidden rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button cursor-pointer"
+                style={cardStyle}
+                onClick={openModal}
+            >
             <AnimatedGrid>
                 <div /> 
                 <div className="flex items-center justify-center">
@@ -152,10 +186,15 @@ const AIShiroCard: React.FC = () => {
             </div>
 
             <div className="mt-6 flex justify-between items-center">
-                <a href="#" className="font-semibold transition-colors" style={{ color: theme.text }}>View Details</a>
-                <a href="#" className="transition-colors" style={{ color: theme.text }}><ExternalLinkIcon /></a>
+                <button onClick={openModal} className="font-semibold transition-colors" style={{ color: theme.text }}>Open</button>
+                <span className="opacity-70" style={{ color: theme.text }}><ExternalLinkIcon /></span>
+            </div>
             </div>
         </div>
+
+        {/* AIShiro Modal */}
+        <AIShiroModal isOpen={isModalOpen} onClose={closeModal} />
+        </>
     );
 };
 

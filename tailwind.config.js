@@ -73,11 +73,28 @@ export default {
             transform: 'scale(1)',
             opacity: '1'
           }
+        },
+        'grid-fade-in': {
+          '0%': {
+            opacity: '0',
+            transform: 'scale(0.8)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'scale(1)'
+          }
+        },
+        'fade-in-out': {
+          '0%': { opacity: '0' },
+          '50%': { opacity: '1' },
+          '100%': { opacity: '0' }
         }
       },
       animation: {
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
         'bounce-dots': 'bounce-dots 1.4s infinite ease-in-out both',
+        'grid-fade-in': 'grid-fade-in 0.6s ease-out forwards',
+        'fade-in-out': 'fade-in-out 4s ease-in-out infinite',
       },
     },
   },

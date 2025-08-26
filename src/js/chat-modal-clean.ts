@@ -246,9 +246,9 @@ export class ChatModal {
       }
     }, 50);
     
-    // Simulate AI response
-    setTimeout(() => {
-      this.simulateAIResponse(message, isPreset, section);
+    // Get AI response
+    setTimeout(async () => {
+      await this.simulateAIResponse(message, isPreset, section);
     }, 2000);
     
     // Focus on modal input
@@ -300,9 +300,9 @@ export class ChatModal {
     // Show AI thinking
     this.showAIThinking();
     
-    // Simulate new AI response
-    setTimeout(() => {
-      this.simulateAIResponse(message, isPreset, section);
+    // Get new AI response
+    setTimeout(async () => {
+      await this.simulateAIResponse(message, isPreset, section);
     }, 2000);
   }
 
@@ -407,7 +407,7 @@ export class ChatModal {
     }
   }
 
-  simulateAIResponse(userMessage: string, isPreset: boolean = false, section: PresetSection | null = null): void {
+  async simulateAIResponse(userMessage: string, isPreset: boolean = false, section: PresetSection | null = null): Promise<void> {
     if (isPreset && section === 'me') {
       // Show Me showcase instead of text response
       this.showResponse(true, 'me');
@@ -421,8 +421,8 @@ export class ChatModal {
       // Show Fun showcase instead of text response
       this.showResponse(true, 'fun');
     } else {
-      // Generate and show regular text response
-      const response = this.generateResponse(userMessage);
+      // Get AI response from backend API
+      const response = await this.getAIResponse(userMessage);
       if (this.aiResponseText) {
         this.aiResponseText.textContent = response;
       }
@@ -430,23 +430,48 @@ export class ChatModal {
     }
   }
 
-  generateResponse(message: string): string {
-    const lowerMessage: string = message.toLowerCase();
-    
-    // Enhanced responses for portfolio context
-    if (lowerMessage.includes('yourself') || lowerMessage.includes('about you')) {
-      return "Hi! I'm Divyansh, a passionate AI/ML engineer and full-stack developer. I love creating innovative solutions that bridge the gap between complex technology and user-friendly interfaces. I specialize in building intelligent systems, interactive web experiences like this portfolio, and exploring the frontiers of artificial intelligence. I'm always excited about pushing the boundaries of what's possible with code!";
-    } else if (lowerMessage.includes('projects')) {
-      return "I've worked on some exciting projects! This interactive 3D portfolio you're looking at combines WebGL fluid simulation with glassmorphism UI design. I also build AI-powered applications, machine learning models, and full-stack web solutions. Each project teaches me something new about the intersection of technology and user experience. Would you like to hear about any specific type of project?";
-    } else if (lowerMessage.includes('skills') || lowerMessage.includes('technical')) {
-      return "My technical toolkit includes Python, JavaScript, React, Node.js, TensorFlow, PyTorch, and various AI/ML frameworks. I'm experienced in both frontend and backend development, with expertise in WebGL, 3D graphics, and machine learning. I also work with cloud platforms, databases, and modern DevOps practices. I believe in continuous learning and staying up-to-date with emerging technologies!";
-    } else if (lowerMessage.includes('fun') || lowerMessage.includes('interesting')) {
-      return "Fun fact: This entire portfolio features a real-time WebGL fluid simulation that responds to your mouse movements! I built the glassmorphism UI components from scratch and designed the whole experience to feel like you're interacting with liquid glass. When I'm not coding, I love experimenting with generative art, exploring new AI research papers, and finding creative ways to make technology more engaging and beautiful.";
-    } else if (lowerMessage.includes('contact') || lowerMessage.includes('touch')) {
-      return "I'd love to connect! You can reach me through LinkedIn, GitHub, or email for professional opportunities, collaborations, or just to chat about technology and innovation. I'm always open to discussing new ideas, working on interesting projects, or sharing knowledge with fellow developers and tech enthusiasts. Feel free to reach out anytime!";
-    } else {
-      return "That's a great question! I'd be happy to tell you more about that. This interactive portfolio is designed to showcase both my technical skills and creative approach to problem-solving. Is there a particular aspect of my work or background you're most curious about? Feel free to ask me anything!";
+  async getAIResponse(message: string): Promise<string> {
+    try {
+      // Call the Python backend API
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message.trim() })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (data.response) {
+        return data.response;
+      } else if (data.error) {
+        console.error('API error:', data.error);
+        return this.getFallbackResponse();
+      } else {
+        throw new Error('Invalid response format');
+      }
+      
+    } catch (error) {
+      console.error('Error calling AI API:', error);
+      return this.getFallbackResponse();
     }
+  }
+
+  getFallbackResponse(): string {
+    // Fallback response when API is unavailable
+    const fallbackResponses = [
+      "Thanks for your question! I'm experiencing some technical difficulties with my AI responses right now. Feel free to explore my project showcases using the quick question buttons, or try asking again in a moment! 🚀",
+      "I appreciate your interest! My AI response system is temporarily unavailable. You can learn more about me through the preset questions below, or please try again shortly! 💻",
+      "Great question! I'm having some trouble with my response system at the moment. Check out my projects, skills, and other sections using the buttons below, or give me another try in a bit! ⚡"
+    ];
+    
+    const randomIndex = Math.floor(Math.random() * fallbackResponses.length);
+    return fallbackResponses[randomIndex];
   }
 
   toggleQuestions(): void {

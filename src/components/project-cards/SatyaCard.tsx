@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import SatyaModal from './SatyaModal';
 import type { Ball, ThemeColors } from './types';
 
 // THEME AND TITLE ARE NOW HARDCODED HERE
@@ -115,6 +116,10 @@ const TechPill: React.FC<TechPillProps> = ({ icon, label }) => (<div className="
 
 const SatyaCard: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
     const hoverStyle = {
         transform: isHovered ? 'scale(1.02)' : 'scale(1)',
         boxShadow: isHovered ? `0 25px 50px -12px ${theme.glow}40` : '0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.5)',
@@ -122,7 +127,8 @@ const SatyaCard: React.FC = () => {
     };
 
     return (
-        <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <>
+        <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button cursor-pointer" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onClick={openModal}>
             <AnimatedGrid>
                 <div /> 
                 <div className="flex items-center justify-center">
@@ -149,10 +155,14 @@ const SatyaCard: React.FC = () => {
             </div>
 
             <div className="mt-6 flex justify-between items-center">
-                <a href="#" className="font-semibold transition-colors" style={{ color: theme.text }}>View Details</a>
-                <a href="#" className="transition-colors" style={{ color: theme.text }}><ExternalLinkIcon /></a>
+                <button onClick={openModal} className="font-semibold transition-colors" style={{ color: theme.text }}>Open</button>
+                <span className="opacity-70" style={{ color: theme.text }}><ExternalLinkIcon /></span>
             </div>
         </div>
+
+        {/* Satya Modal */}
+        <SatyaModal isOpen={isModalOpen} onClose={closeModal} />
+        </>
     );
 };
 

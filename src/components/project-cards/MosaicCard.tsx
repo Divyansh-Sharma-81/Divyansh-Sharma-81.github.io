@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import MosaicModal from './MosaicModal';
 import type { Ball, ThemeColors } from './types';
 
 const theme: ThemeColors = { main: '#3b82f6', glow: '#3b82f6', text: '#93c5fd', pillBg: 'rgba(59, 130, 246, 0.1)', pillText: '#60a5fa', gradientFrom: '#60a5fa', gradientTo: '#3b82f6', gridCell: 'rgba(147, 197, 253, 0.07)', bgColor: '#0c1421' };
@@ -114,6 +115,10 @@ const TechPill: React.FC<TechPillProps> = ({ icon, label }) => (<div className="
 
 const MosaicCard: React.FC = () => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
     const hoverStyle = {
         transform: isHovered ? 'scale(1.02)' : 'scale(1)',
         boxShadow: isHovered ? `0 25px 50px -12px ${theme.glow}40` : '0 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.5)',
@@ -121,7 +126,8 @@ const MosaicCard: React.FC = () => {
     };
 
     return (
-        <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <>
+        <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button cursor-pointer" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onClick={openModal}>
             <AnimatedGrid>
                 <div /> 
                 <div className="flex items-center justify-center">
@@ -148,10 +154,14 @@ const MosaicCard: React.FC = () => {
             </div>
 
             <div className="mt-6 flex justify-between items-center">
-                <a href="#" className="font-semibold transition-colors" style={{ color: theme.text }}>View Details</a>
-                <a href="#" className="transition-colors" style={{ color: theme.text }}><ExternalLinkIcon /></a>
+                <button onClick={openModal} className="font-semibold transition-colors" style={{ color: theme.text }}>Open</button>
+                <span className="opacity-70" style={{ color: theme.text }}><ExternalLinkIcon /></span>
             </div>
         </div>
+
+        {/* Mosaic Modal */}
+        <MosaicModal isOpen={isModalOpen} onClose={closeModal} />
+        </>
     );
 };
 

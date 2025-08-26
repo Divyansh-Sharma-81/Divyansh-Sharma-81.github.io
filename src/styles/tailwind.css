@@ -3,6 +3,58 @@
 
 /* Enhanced Glass Components with TailwindCSS */
 @layer components {
+  /* Grid Animation for Project Showcase Modal */
+  @keyframes grid-fade-in {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .animate-grid-fade-in {
+    animation: grid-fade-in 0.5s ease-out forwards;
+  }
+
+  /* Custom Scrollbar for Project Modal */
+  .scrollable-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+  }
+
+  .scrollable-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollable-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 3px;
+  }
+
+  .scrollable-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255,255,255,0.5);
+  }
+
+  /* Dark theme scrollbar */
+  .dark .scrollable-content {
+    scrollbar-color: rgba(255,255,255,0.4) transparent;
+  }
+
+  .dark .scrollable-content::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.4);
+  }
+
+  .dark .scrollable-content::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255,255,255,0.6);
+  }
+
   /* Base Glass Panel Enhancement */
   .glass-panel {
     @apply backdrop-blur-md border border-white/30 dark:border-gray-700/30 rounded-2xl transition-all duration-300;

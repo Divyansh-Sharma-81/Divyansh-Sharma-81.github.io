@@ -6,3 +6,5 @@ usage*.json
 ui_*.png
 /node_modules/
 reference.png
+.env
+.vercel
