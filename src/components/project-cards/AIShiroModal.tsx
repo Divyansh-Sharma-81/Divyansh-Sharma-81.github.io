@@ -271,10 +271,10 @@ const AIShiroModal: React.FC<AIShiroModalProps> = ({ isOpen, onClose }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center font-sans text-white z-50" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
-            <div className="bg-[#161616] rounded-2xl shadow-2xl shadow-black/50 p-8 relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
+            <div className="project-modal-glass relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
                 <button 
                     onClick={onClose}
-                    className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
+                    className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center cursor-pointer text-gray-500 rounded-full project-close-glass"
                 >
                     <CloseIcon />
                 </button>
