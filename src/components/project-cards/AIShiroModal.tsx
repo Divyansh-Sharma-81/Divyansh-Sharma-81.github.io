@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 // Type for the animated balls
 type Ball = {
@@ -13,10 +14,10 @@ type Ball = {
 
 // Theme for AIShiro (vibrant green theme matching the original)
 const theme = {
-    gridCell: 'rgba(74, 222, 128, 0.1)', // green-400 with 10% opacity - more vibrant
-    bgColor: 'rgba(17, 24, 20, 0.5)',    // A dark green, similar to green-900 with some transparency
-    ballColor: 'rgba(134, 239, 172, 0.2)', // green-300 with 20% opacity
-    ballGlow: '0 0 15px 5px rgba(134, 239, 172, 0.1)' // green-300 glow
+    gridCell: 'rgba(74, 222, 128, 0.3)', // green-400 with 30% opacity - more visible
+    bgColor: 'rgba(17, 24, 20, 0.8)',    // A dark green, similar to green-900 with more opacity
+    ballColor: 'rgba(134, 239, 172, 0.4)', // green-300 with 40% opacity
+    ballGlow: '0 0 15px 5px rgba(134, 239, 172, 0.2)' // green-300 glow
 };
 
 // Icons from the project-showcase-card
@@ -254,24 +255,29 @@ const AIShiroModal: React.FC<AIShiroModalProps> = ({ isOpen, onClose }) => {
         { name: "AI", icon: <AIIcon /> }
     ];
 
-    // Prevent body scrolling when modal is open
+    // Screen transition management - add class to body
     React.useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('project-modal-mode');
         } else {
             document.body.style.overflow = 'unset';
+            document.body.classList.remove('project-modal-mode');
         }
         
         return () => {
             document.body.style.overflow = 'unset';
+            document.body.classList.remove('project-modal-mode');
         };
     }, [isOpen]);
 
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 flex items-center justify-center font-sans text-white z-50" style={{ backgroundColor: 'rgba(0,0,0,0.4)' }}>
-            <div className="project-modal-glass relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
+    const projectModalContent = document.getElementById('projectModalContent');
+    if (!projectModalContent) return null;
+
+    return createPortal(
+        <div className="project-modal-glass relative overflow-hidden overflow-y-auto" style={{ width: '40vw', height: '96vh' }}>
                 <button 
                     onClick={onClose}
                     className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center cursor-pointer text-gray-500 rounded-full project-close-glass"
@@ -406,8 +412,8 @@ const AIShiroModal: React.FC<AIShiroModalProps> = ({ isOpen, onClose }) => {
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div>,
+        projectModalContent
     );
 };
 
