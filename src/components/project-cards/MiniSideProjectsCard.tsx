@@ -98,7 +98,7 @@ const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children }) => {
                 <div key={ball.id} className="absolute bg-white/10 rounded-full animate-fade-in-out"
                     style={{ left: `${ball.x}%`, top: `${ball.y}%`, width: `${ball.size}px`, height: `${ball.size}px`, transform: 'translate(-50%, -50%)', boxShadow: '0 0 15px 5px rgba(255, 255, 255, 0.05)' }} />
             ))}
-            <div className="relative z-10 flex flex-col justify-between h-full">{children}</div>
+            <div className="relative z-10 flex flex-col justify-center items-center h-full gap-3 pt-2 pb-4">{children}</div>
         </div>
     );
 };
@@ -130,7 +130,7 @@ const MiniSideProjectsCard: React.FC = () => {
         <>
         <div className="w-80 rounded-2xl p-4 text-white border border-white/10 glass-panel glass-panel--button cursor-pointer" style={hoverStyle} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} onClick={openModal}>
             <AnimatedGrid>
-                <div /> 
+                {/* REMOVED the empty placeholder div so content isn't forced apart */} 
                 <div className="flex items-center justify-center">
                     <div className="w-24 h-24 rounded-3xl flex items-center justify-center ring-1 ring-white/10"
                         style={{ background: `linear-gradient(to bottom right, ${theme.gradientFrom}, ${theme.gradientTo})`, boxShadow: `0 10px 15px -3px ${theme.main}33` }}>

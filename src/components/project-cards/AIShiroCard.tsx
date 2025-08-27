@@ -8,9 +8,8 @@ const title = "AIshiro";
 
 interface AnimatedGridProps {
     children: React.ReactNode;
-    heightClass?: string; // e.g., 'h-56 md:h-64 lg:h-72'
 }
-const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children, heightClass }) => {
+const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children }) => {
     const createInitialBalls = (): Ball[] => {
         const initialBalls: Ball[] = [];
         const now = Date.now();
@@ -92,7 +91,7 @@ const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children, heightClass }) =>
     const gridCellSvg = `<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="30" height="30" rx="6" fill="${theme.gridCell}" /></svg>`;
     const backgroundImageUrl = `url("data:image/svg+xml,${encodeURIComponent(gridCellSvg)}")`;
 
-    const hClass = heightClass || 'h-56';
+    const hClass = 'h-56';
     return (
         <div className={`relative w-full ${hClass} rounded-xl overflow-hidden p-4 flex flex-col justify-between`} 
             style={{ backgroundColor: theme.bgColor, backgroundImage: backgroundImageUrl, backgroundSize: '2.5rem 2.5rem' }}>
@@ -100,7 +99,7 @@ const AnimatedGrid: React.FC<AnimatedGridProps> = ({ children, heightClass }) =>
                 <div key={ball.id} className="absolute bg-white/10 rounded-full animate-fade-in-out"
                     style={{ left: `${ball.x}%`, top: `${ball.y}%`, width: `${ball.size}px`, height: `${ball.size}px`, transform: 'translate(-50%, -50%)', boxShadow: '0 0 15px 5px rgba(255, 255, 255, 0.05)' }} />
             ))}
-            <div className="relative z-10 flex flex-col justify-between h-full">{children}</div>
+            <div className="relative z-10 flex flex-col justify-center items-center h-full gap-3 pt-2 pb-4">{children}</div>
         </div>
     );
 };
@@ -160,7 +159,7 @@ const AIShiroCard: React.FC = () => {
                 onClick={openModal}
             >
             <AnimatedGrid>
-                <div /> 
+                {/* REMOVED the empty placeholder div so content isn't forced apart */} 
                 <div className="flex items-center justify-center">
                     <div className="w-24 h-24 rounded-3xl flex items-center justify-center ring-1 ring-white/10"
                         style={{ background: `linear-gradient(to bottom right, ${theme.gradientFrom}, ${theme.gradientTo})`, boxShadow: `0 10px 15px -3px ${theme.main}33` }}>
