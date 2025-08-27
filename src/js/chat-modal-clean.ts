@@ -36,6 +36,7 @@ export class ChatModal {
   private projectsShowcase: HTMLElement | null;
   private skillsShowcase: HTMLElement | null;
   private funShowcase: HTMLElement | null;
+  private contactShowcase: HTMLElement | null;
   private isChatMode: boolean = false;
   private questionsCollapsed: boolean = false;
   private isPresetQuestion: boolean = false;
@@ -69,6 +70,7 @@ export class ChatModal {
     this.projectsShowcase = document.getElementById('projectsShowcase');
     this.skillsShowcase = document.getElementById('skillsShowcase');
     this.funShowcase = document.getElementById('funShowcase');
+    this.contactShowcase = document.getElementById('contactShowcase');
     
     this.init();
   }
@@ -346,6 +348,9 @@ export class ChatModal {
     if (this.funShowcase) {
       this.funShowcase.style.display = 'none';
     }
+    if (this.contactShowcase) {
+      this.contactShowcase.style.display = 'none';
+    }
   }
 
   hideUserMessage(): void {
@@ -398,6 +403,14 @@ export class ChatModal {
       if (this.funShowcase) {
         this.funShowcase.style.display = 'flex';
       }
+    } else if (isPreset && section === 'contact') {
+      // Hide user message and show Contact showcase
+      this.hideUserMessage();
+      if (this.contactShowcase) {
+        this.contactShowcase.style.display = 'flex';
+        // Generate contact showcase with React components
+        this.generateContactShowcase();
+      }
     } else {
       // Show user message and regular text response
       this.showUserMessage();
@@ -420,6 +433,9 @@ export class ChatModal {
     } else if (isPreset && section === 'fun') {
       // Show Fun showcase instead of text response
       this.showResponse(true, 'fun');
+    } else if (isPreset && section === 'contact') {
+      // Show Contact showcase instead of text response
+      this.showResponse(true, 'contact');
     } else {
       // Get AI response from backend API
       const response = await this.getAIResponse(userMessage);
@@ -650,6 +666,443 @@ export class ChatModal {
         }
       }, TYPING_SPEED);
     }, startDelay);
+  }
+
+  // Generate contact showcase with React components
+  generateContactShowcase(): void {
+    const contactTextReveal = document.getElementById('contactTextReveal');
+    const contactProfileSection = document.getElementById('contactProfileSection');
+    const contactInternshipInfo = document.getElementById('contactInternshipInfo');
+    
+    if (!contactTextReveal || !contactProfileSection || !contactInternshipInfo) return;
+
+    // Clear previous content
+    contactTextReveal.innerHTML = '';
+    contactProfileSection.innerHTML = '';
+    contactInternshipInfo.innerHTML = '';
+
+    // Render Text Reveal Card
+    this.renderTextRevealCard(contactTextReveal);
+    
+    // Render Profile Card
+    this.renderProfileCard(contactProfileSection);
+    
+    // Render Internship Search Info
+    this.renderInternshipInfo(contactInternshipInfo);
+  }
+
+  private renderTextRevealCard(container: HTMLElement): void {
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'glass-panel glass-panel--chat-element rounded-lg p-8 relative overflow-hidden';
+    cardDiv.style.backgroundColor = 'var(--glass-bg)';
+    cardDiv.style.backdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    cardDiv.style.WebkitBackdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    cardDiv.style.border = '1px solid var(--glass-border)';
+    
+    // Title and description
+    const titleDiv = document.createElement('h2');
+    titleDiv.textContent = "Let's Connect!";
+    titleDiv.style.color = 'var(--text-primary)';
+    titleDiv.className = 'text-lg mb-2';
+    
+    const descDiv = document.createElement('p');
+    descDiv.textContent = "Move your cursor over the card to reveal the message";
+    descDiv.style.color = 'var(--text-secondary)';
+    descDiv.className = 'text-sm mb-4';
+    
+    // Interactive reveal container
+    const interactiveDiv = document.createElement('div');
+    interactiveDiv.className = 'h-40 relative flex items-center overflow-hidden';
+    interactiveDiv.style.borderRadius = '8px';
+    
+    // Text reveal variables
+    let widthPercentage = 0;
+    let isMouseOver = false;
+    let left = 0;
+    let localWidth = 0;
+    
+    // Update dimensions function
+    const updateDimensions = () => {
+      const rect = interactiveDiv.getBoundingClientRect();
+      left = rect.left;
+      localWidth = rect.width;
+    };
+    
+    // Reveal overlay (the text that gets revealed)
+    const revealOverlay = document.createElement('div');
+    revealOverlay.style.cssText = `
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--glass-bg);
+      backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate));
+      -webkit-backdrop-filter: blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate));
+      z-index: 20;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    
+    const revealText = document.createElement('p');
+    revealText.textContent = "Let's build something amazing together!";
+    revealText.style.cssText = `
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-shadow: 4px 4px 15px rgba(0,0,0,0.5);
+      padding: 2.5rem 1rem;
+      text-align: center;
+      margin: 0;
+    `;
+    
+    revealOverlay.appendChild(revealText);
+    
+    // Sliding divider
+    const divider = document.createElement('div');
+    divider.style.cssText = `
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 8px;
+      background: linear-gradient(to bottom, transparent, var(--text-secondary), transparent);
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      left: 0%;
+    `;
+    
+    // Base text container with stars
+    const baseContainer = document.createElement('div');
+    baseContainer.style.cssText = `
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      mask-image: linear-gradient(to bottom, transparent, white, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, white, transparent);
+    `;
+    
+    const baseText = document.createElement('p');
+    baseText.textContent = "Ready to collaborate";
+    baseText.style.cssText = `
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 2.5rem 1rem;
+      text-align: center;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    `;
+    
+    // Create stars animation
+    const starsContainer = document.createElement('div');
+    starsContainer.style.cssText = `
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    `;
+    
+    // Create 80 animated particles (exact replication of original motion.span behavior)
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement('span');
+      
+      // Helper functions matching original
+      const randomMove = () => Math.random() * 4 - 2;
+      const randomOpacity = () => Math.random();
+      const random = () => Math.random();
+      
+      // Initial position (matching original style prop)
+      const initialTop = random() * 100;
+      const initialLeft = random() * 100;
+      
+      // Animation duration (20-30 seconds like original)
+      const duration = (random() * 10 + 20) * 1000; // Convert to milliseconds
+      
+      star.style.cssText = `
+        position: absolute;
+        top: ${initialTop}%;
+        left: ${initialLeft}%;
+        width: 2px;
+        height: 2px;
+        background-color: white;
+        border-radius: 50%;
+        z-index: 1;
+        display: inline-block;
+      `;
+      
+      // Create CSS animation that matches motion.span animate prop
+      const animationName = `star-${i}`;
+      const keyframes = `
+        @keyframes ${animationName} {
+          0% {
+            top: calc(${random() * 100}% + ${randomMove()}px);
+            left: calc(${random() * 100}% + ${randomMove()}px);
+            opacity: ${randomOpacity()};
+            transform: scale(1);
+          }
+          33% {
+            top: calc(${random() * 100}% + ${randomMove()}px);
+            left: calc(${random() * 100}% + ${randomMove()}px);
+            opacity: ${randomOpacity()};
+            transform: scale(1.2);
+          }
+          66% {
+            top: calc(${random() * 100}% + ${randomMove()}px);
+            left: calc(${random() * 100}% + ${randomMove()}px);
+            opacity: ${randomOpacity()};
+            transform: scale(0);
+          }
+          100% {
+            top: calc(${random() * 100}% + ${randomMove()}px);
+            left: calc(${random() * 100}% + ${randomMove()}px);
+            opacity: ${randomOpacity()};
+            transform: scale(1);
+          }
+        }
+      `;
+      
+      // Inject keyframes
+      const style = document.createElement('style');
+      style.textContent = keyframes;
+      document.head.appendChild(style);
+      
+      // Apply animation
+      star.style.animation = `${animationName} ${duration}ms linear infinite`;
+      
+      starsContainer.appendChild(star);
+    }
+    
+    baseContainer.appendChild(baseText);
+    baseContainer.appendChild(starsContainer);
+    
+    // Mouse handlers
+    const handleMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
+      if (!isMouseOver) return;
+      
+      const clientX = event.clientX;
+      const relativeX = clientX - left;
+      widthPercentage = Math.max(0, Math.min(100, (relativeX / localWidth) * 100));
+      
+      revealOverlay.style.clipPath = `inset(0 ${100 - widthPercentage}% 0 0)`;
+      divider.style.left = `${widthPercentage}%`;
+      divider.style.opacity = widthPercentage > 0 ? '1' : '0';
+      
+      const rotateDeg = (widthPercentage - 50) * 0.1;
+      divider.style.transform = `rotate(${rotateDeg}deg)`;
+    };
+    
+    const handleMouseEnter = () => {
+      isMouseOver = true;
+      updateDimensions();
+      revealOverlay.style.transition = 'none';
+      divider.style.transition = 'none';
+    };
+    
+    const handleMouseLeave = () => {
+      isMouseOver = false;
+      widthPercentage = 0;
+      revealOverlay.style.transition = 'clip-path 0.4s ease';
+      revealOverlay.style.clipPath = 'inset(0 100% 0 0)';
+      divider.style.opacity = '0';
+      divider.style.transition = 'opacity 0.4s ease';
+    };
+    
+    // Touch handlers for mobile
+    const handleTouchMove = (event: TouchEvent) => {
+      event.preventDefault();
+      if (!isMouseOver || event.touches.length === 0) return;
+      
+      const clientX = event.touches[0].clientX;
+      const relativeX = clientX - left;
+      widthPercentage = Math.max(0, Math.min(100, (relativeX / localWidth) * 100));
+      
+      revealOverlay.style.clipPath = `inset(0 ${100 - widthPercentage}% 0 0)`;
+      divider.style.left = `${widthPercentage}%`;
+      divider.style.opacity = widthPercentage > 0 ? '1' : '0';
+    };
+    
+    // Add event listeners
+    interactiveDiv.addEventListener('mouseenter', handleMouseEnter);
+    interactiveDiv.addEventListener('mouseleave', handleMouseLeave);
+    interactiveDiv.addEventListener('mousemove', handleMouseMove);
+    interactiveDiv.addEventListener('touchstart', handleMouseEnter);
+    interactiveDiv.addEventListener('touchend', handleMouseLeave);
+    interactiveDiv.addEventListener('touchmove', handleTouchMove);
+    
+    // Handle window resize
+    window.addEventListener('resize', updateDimensions);
+    
+    // Assemble the interactive div
+    interactiveDiv.appendChild(baseContainer);
+    interactiveDiv.appendChild(revealOverlay);
+    interactiveDiv.appendChild(divider);
+    
+    // Assemble the card
+    cardDiv.appendChild(titleDiv);
+    cardDiv.appendChild(descDiv);
+    cardDiv.appendChild(interactiveDiv);
+    
+    container.appendChild(cardDiv);
+    
+    // Initial dimensions update
+    setTimeout(updateDimensions, 100);
+  }
+
+  private renderProfileCard(container: HTMLElement): void {
+    const profileDiv = document.createElement('div');
+    profileDiv.className = 'glass-panel glass-panel--chat-element rounded-2xl p-8 sm:p-12';
+    profileDiv.style.backgroundColor = 'var(--glass-bg)';
+    profileDiv.style.backdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    profileDiv.style.WebkitBackdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    profileDiv.style.border = '1px solid var(--glass-border)';
+    
+    profileDiv.innerHTML = `
+      <header style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 1.5rem; margin-bottom: 2.5rem;">
+        <div style="display: flex; align-items: center; gap: 1.25rem;">
+          <img src="/assets/divyansh.png" alt="Divyansh Sharma" style="width: 5rem; height: 5rem; border-radius: 9999px; border: 4px solid var(--glass-border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);" />
+          <div>
+            <h1 style="font-size: 1.875rem; font-weight: 700; color: var(--text-primary);">Divyansh Sharma</h1>
+            <p style="color: var(--text-secondary);">Available for Opportunities</p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #22c55e; background-color: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 9999px; padding: 0.25rem 0.75rem;">
+          <span style="width: 0.5rem; height: 0.5rem; background-color: #22c55e; border-radius: 9999px;"></span>
+          Active
+        </div>
+      </header>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 3rem; margin-bottom: 3rem;">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <svg style="width: 1.25rem; height: 1.25rem; color: #6366f1;" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M5.25 2.25a3 3 0 00-3 3v13.5a3 3 0 003 3h13.5a3 3 0 003-3V5.25a3 3 0 00-3-3H5.25zm1.5 9a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm3 0a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3zm5.25.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM6.75 15a.75.75 0 000 1.5h.75a.75.75 0 000-1.5h-.75zm3 0a.75.75 0 000 1.5h3a.75.75 0 000-1.5h-3zm5.25.75a.75.75 0 01.75-.75h.75a.75.75 0 010 1.5h-.75a.75.75 0 01-.75-.75zM9 5.25a.75.75 0 000 1.5h6a.75.75 0 000-1.5H9z" clip-rule="evenodd" />
+            </svg>
+            <h2 style="font-weight: 600; color: var(--text-primary);">Availability</h2>
+          </div>
+          <p style="color: var(--text-primary);">Immediate — Available now</p>
+          <p style="font-size: 0.875rem; color: var(--text-secondary);">(open to opportunities)</p>
+        </div>
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <svg style="width: 1.25rem; height: 1.25rem; color: #22c55e;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+              <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+            <h2 style="font-weight: 600; color: var(--text-primary);">Location</h2>
+          </div>
+          <p style="color: var(--text-primary);">Kolkata, India + Remote</p>
+        </div>
+        
+        <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <svg style="width: 1.25rem; height: 1.25rem; color: #a855f7;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h2 style="font-weight: 600; color: var(--text-primary);">Tech Expertise</h2>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; color: var(--text-primary);">
+            <ul style="display: flex; flex-direction: column; gap: 0.25rem; list-style: disc; padding-left: 1rem;">
+              <li>AI/ML Development & Deployment</li>
+              <li>Full-stack Web Development</li>
+              <li>Python, JavaScript, TypeScript</li>
+              <li>Next.js, React, TailwindCSS</li>
+            </ul>
+            <ul style="display: flex; flex-direction: column; gap: 0.25rem; list-style: disc; padding-left: 1rem;">
+              <li>RAG Pipelines & Vector Databases</li>
+              <li>Prompt Engineering & Fine-tuning</li>
+              <li>SaaS Product Development</li>
+              <li>Open Source Contributions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 3rem; display: flex; flex-direction: column; gap: 2rem;">
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary);">What I Bring</h3>
+          <p style="line-height: 1.625; color: var(--text-secondary);">
+            Real-world AI development experience from AIRAA (AI platforms, secure GPTs, RAG pipelines).
+            Proven track record with hackathon wins and open-source contributions.
+            I ship fast and love building useful things that actually work.
+          </p>
+        </div>
+        <div>
+          <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-primary);">Looking For</h3>
+          <p style="line-height: 1.625; color: var(--text-secondary);">
+            Opportunities to join innovative teams building AI-powered tools that matter. 
+            I want to contribute meaningfully, learn rapidly, and create impact. Ready to dive in! 🚀
+          </p>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 3rem;">
+        <button style="background-color: var(--accent-color); color: white; font-weight: 600; border-radius: 9999px; padding: 1rem 2rem; border: none; cursor: pointer; transition: all 0.2s;">
+          Get In Touch
+        </button>
+      </div>
+    `;
+    
+    container.appendChild(profileDiv);
+  }
+
+  private renderInternshipInfo(container: HTMLElement): void {
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'glass-panel glass-panel--chat-element rounded-lg px-4 py-6 sm:px-8';
+    infoDiv.style.backgroundColor = 'var(--glass-bg)';
+    infoDiv.style.backdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    infoDiv.style.WebkitBackdropFilter = 'blur(var(--glass-backdrop-blur)) saturate(var(--glass-backdrop-saturate))';
+    infoDiv.style.border = '1px solid var(--glass-border)';
+    
+    infoDiv.innerHTML = `
+      <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+        Here are the ways to connect with me 👇
+      </p>
+      <ul style="display: flex; flex-direction: column; gap: 1rem;">
+        <li style="display: flex; align-items: flex-start; gap: 1rem;">
+          <div style="width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background-color: rgba(99, 102, 241, 0.1); flex-shrink: 0;">
+            <svg style="width: 1rem; height: 1rem; color: #6366f1;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+              <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+            </svg>
+          </div>
+          <p style="color: var(--text-primary);">
+            <span style="font-weight: 700; color: var(--text-primary);">Email:</span> Feel free to reach out at <span style="font-weight: 700;">divyanshs81@gmail.com</span> for opportunities or collaboration.
+          </p>
+        </li>
+        <li style="display: flex; align-items: flex-start; gap: 1rem;">
+          <div style="width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background-color: rgba(34, 197, 94, 0.1); flex-shrink: 0;">
+            <svg style="width: 1rem; height: 1rem; color: #22c55e;" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 01-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.804 9.804a3.75 3.75 0 00-1.035-6.037.75.75 0 01.646-1.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 011.06 1.06l-1.757 1.757a3.75 3.75 0 000 5.304z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <p style="color: var(--text-primary);">
+            <span style="font-weight: 700; color: var(--text-primary);">LinkedIn:</span> Connect with me professionally at <span style="font-weight: 700;">linkedin.com/in/divyansh-sharma-81</span>.
+          </p>
+        </li>
+        <li style="display: flex; align-items: flex-start; gap: 1rem;">
+          <div style="width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center; border-radius: 9999px; background-color: rgba(168, 85, 247, 0.1); flex-shrink: 0;">
+            <svg style="width: 1rem; height: 1rem; color: #a855f7;" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <p style="color: var(--text-primary);">
+            <span style="font-weight: 700; color: var(--text-primary);">GitHub:</span> Check out my projects and contributions at <span style="font-weight: 700;">github.com/Divyansh-Sharma-81</span>.
+          </p>
+        </li>
+      </ul>
+    `;
+    
+    container.appendChild(infoDiv);
   }
 
 }

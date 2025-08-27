@@ -99,6 +99,29 @@
   overflow-y: auto; /* Enable vertical scrolling */
   /* Calculate max-height to prevent overlap with chat-bottom-area */
   max-height: calc(96vh - 200px - calc(100vw / 30) - var(--spacing-lg) * 3); /* Modal height - bottom area - avatar - spacing */
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for AI response area */
+.ai-response-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-response-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-response-area::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.ai-response-area::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
 }
 
 .ai-logo-response {
@@ -188,6 +211,30 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+  overflow-y: auto;
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for me showcase */
+.me-showcase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.me-showcase::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.me-showcase::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.me-showcase::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
 }
 
 /* Main content container - 4/5th of chat modal width */
@@ -304,6 +351,30 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+  overflow-y: auto;
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for projects showcase */
+.projects-showcase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.projects-showcase::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.projects-showcase::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.projects-showcase::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
 }
 
 /* Main content container - 4/5th of chat modal width */
@@ -615,6 +686,30 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-md);
+  overflow-y: auto;
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for skills showcase */
+.skills-showcase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.skills-showcase::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.skills-showcase::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.skills-showcase::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
 }
 
 /* Fun Showcase - Interactive draggable cards layout */
@@ -624,6 +719,30 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
+  overflow-y: auto;
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for fun showcase */
+.fun-showcase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fun-showcase::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fun-showcase::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.fun-showcase::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
 }
 
 /* Fun content container - full width */
@@ -637,6 +756,83 @@
   overflow: visible;
   position: relative;
 }
+
+/* Contact Showcase - Glass-themed contact information layout */
+.contact-showcase {
+  width: 100%;
+  display: none; /* Initially hidden */
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  overflow-y: auto;
+  
+  /* Glass-themed scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+/* Glass-themed webkit scrollbar for contact showcase */
+.contact-showcase::-webkit-scrollbar {
+  width: 6px;
+}
+
+.contact-showcase::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contact-showcase::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 3px;
+  backdrop-filter: blur(8px);
+}
+
+.contact-showcase::-webkit-scrollbar-thumb:hover {
+  background-color: var(--glass-border-hover);
+}
+
+/* Main content container - full width following established pattern */
+.contact-content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* Contact heading - no glass styling, consistent with other headings */
+.contact-heading {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* Text reveal card section */
+.contact-text-reveal {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-text-reveal > * {
+  width: 100%;
+}
+
+/* Profile card section with glass styling */
+.contact-profile-section {
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Internship info section */
+.contact-internship-info {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+}
+
 
 /* Main content container - full width like projects */
 .skills-content-container {
