@@ -34,13 +34,13 @@ let config = {
     SIM_RESOLUTION: 128, // From your settings: 256
     DYE_RESOLUTION: 1024, // From your settings: high quality
     CAPTURE_RESOLUTION: 512,
-    DENSITY_DISSIPATION: 1.5, // From your settings: 3.2
-    VELOCITY_DISSIPATION: 0.4, // From your settings: 0.59
-    PRESSURE: 0.73, // From your settings: 0.73
-    PRESSURE_ITERATIONS: 20,
+    DENSITY_DISSIPATION: 0.8, // From your settings: 3.2
+    VELOCITY_DISSIPATION: 0.7, // From your settings: 0.59
+    PRESSURE: 0.3, // From your settings: 0.73
+    PRESSURE_ITERATIONS: 10,
     CURL: 2, // From your settings: vorticity 2
     SPLAT_RADIUS: 0.05, // From your settings: 0.11
-    SPLAT_FORCE: 5000,
+    SPLAT_FORCE: 4000,
     SHADING: true, // From your settings: enabled
     COLORFUL: true, // From your settings: enabled
     COLOR_UPDATE_SPEED: 10,
@@ -50,12 +50,12 @@ let config = {
     BLOOM: true, // From your settings: enabled
     BLOOM_ITERATIONS: 8,
     BLOOM_RESOLUTION: 256,
-    BLOOM_INTENSITY: 1.6, // From your settings: 1.64
+    BLOOM_INTENSITY: 0.4, // From your settings: 1.64
     BLOOM_THRESHOLD: 0.6, // From your settings: 0.6
-    BLOOM_SOFT_KNEE: 0.7,
+    BLOOM_SOFT_KNEE: 0.1,
     SUNRAYS: true, // From your settings: enabled
     SUNRAYS_RESOLUTION: 196,
-    SUNRAYS_WEIGHT: 0.8, // From your settings: weight 1
+    SUNRAYS_WEIGHT: 0.5, // From your settings: weight 1
 }
 
 function pointerPrototype () {

@@ -36,7 +36,7 @@
   flex: 1;
   min-height: 0; /* Allow shrinking */
   justify-content: flex-start; /* Start content higher up */
-  padding-top: calc(calc(100vw / 30) + var(--spacing-lg)); /* Avatar height + extra spacing for clearance */
+  padding-top: calc(calc(100vw / 30) + calc(var(--spacing-sm) * 0.6)); /* Avatar height + proportional clearance matching internal heading-to-component spacing */
   overflow: hidden; /* Prevent content from overflowing outside modal */
 }
 
@@ -790,12 +790,12 @@
   background-color: var(--glass-border-hover);
 }
 
-/* Main content container - full width following established pattern */
+/* Main content container - full width following skills pattern */
 .contact-content-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 0; /* Remove gap to control spacing manually like skills */
   align-items: center;
 }
 
@@ -808,29 +808,157 @@
   margin-bottom: 0;
 }
 
-/* Text reveal card section */
-.contact-text-reveal {
-  width: 90%;
-  display: flex;
-  justify-content: center;
-}
 
-.contact-text-reveal > * {
-  width: 100%;
-}
-
-/* Profile card section with glass styling */
+/* Profile card section with glass styling - like skills-categories */
 .contact-profile-section {
   width: 90%;
   display: flex;
   justify-content: center;
+  margin-top: var(--spacing-sm); /* Controlled spacing from heading like skills */
 }
 
-/* Internship info section */
+/* Contact Profile Card - Enhanced layout with proper spacing */
+.contact-profile-card {
+  width: 100% !important;
+  max-width: none !important;
+  /* Override any conflicting Tailwind padding classes */
+  padding: calc(var(--spacing-lg) * 1.25) !important;
+}
+
+/* Active Badge Animation - Dim and Light Up Effect */
+.contact-active-badge {
+  transition: all 0.4s ease-in-out !important;
+}
+
+.contact-active-dot {
+  animation: activePulse 2s ease-in-out infinite !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* Keyframe animation for the active dot - dim and light up */
+@keyframes activePulse {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+    transform: scale(1.1);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.4;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    transform: scale(1);
+  }
+}
+
+/* Enhanced badge hover effect */
+.contact-active-badge:hover {
+  background-color: rgba(34, 197, 94, 0.15) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(34, 197, 94, 0.2) !important;
+}
+
+.contact-active-badge:hover .contact-active-dot {
+  animation-duration: 1s !important;
+  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.3) !important;
+}
+
+/* Contact Floating Dock - No background, just floating icons */
+.contact-dock-simple {
+  /* Remove all background styling */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.dark .contact-dock-simple {
+  /* Remove all background styling */
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Responsive adjustments for contact floating dock */
+@media (max-width: 768px) {
+  .contact-dock-simple {
+    /* Slightly wider on tablets */
+    width: calc(100% / 2.5) !important;
+    min-width: 240px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-dock-simple {
+    /* Even wider on mobile for better touch targets */
+    width: calc(100% / 2) !important;
+    min-width: 200px !important;
+  }
+}
+
+/* Responsive adjustments for contact profile card */
+@media (max-width: 768px) {
+  .contact-profile-card {
+    padding: calc(var(--spacing-md) * 1.5) !important;
+  }
+  
+  /* Mobile grid adjustments */
+  .contact-profile-card div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: calc(var(--spacing-lg) * 1.2) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-profile-card {
+    padding: var(--spacing-lg) !important;
+  }
+  
+  /* Stack header elements on very small screens */
+  .contact-profile-card header[style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* Contact description section - plain text like skills-description */
 .contact-internship-info {
-  width: 95%;
+  width: 90%; /* Match profile card width */
   display: flex;
   justify-content: center;
+  margin-top: var(--spacing-md); /* Spacing after profile card like skills */
+}
+
+/* Contact description styling - match skills-description */
+.contact-description {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  text-align: left;
+}
+
+.contact-description p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.contact-description strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 
@@ -1230,7 +1358,7 @@
   }
   
   .chat-content-area {
-    padding-top: calc(calc(100vw / 15) + var(--spacing-lg)); /* Mobile avatar size + clearance */
+    padding-top: calc(calc(100vw / 15) + calc(var(--spacing-sm) * 0.6)); /* Tablet avatar + proportional clearance matching internal spacing */
   }
   
   .chat-modal-avatar .avatar {
@@ -1267,7 +1395,7 @@
   }
   
   .chat-content-area {
-    padding-top: calc(var(--avatar-size) + var(--spacing-md)); /* Small screen avatar + clearance */
+    padding-top: calc(var(--avatar-size) + calc(var(--spacing-sm) * 0.6)); /* Mobile avatar + proportional clearance matching internal spacing */
   }
   
   .chat-modal-avatar .avatar {
